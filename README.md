@@ -3,16 +3,4 @@
 
 ## Usage
 
-### Installation
-
-```sh
-$ npm install {{ project }}
-```
-
-```js
-const {{ projectSlug }} = require('{{ project }}')
-```
-
-## How it works
-
-Like magic!
+Coming 🔜
