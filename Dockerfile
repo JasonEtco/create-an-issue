@@ -11,10 +11,10 @@ LABEL "maintainer"="Jason Etcovitch <jasonetco@github.com>"
 
 ADD package.json /package.json
 ADD package-lock.json /package-lock.json
+WORKDIR /
 
 RUN npm ci
 
-WORKDIR /
 COPY . /
 
 ENTRYPOINT ["/entrypoint.sh"]
