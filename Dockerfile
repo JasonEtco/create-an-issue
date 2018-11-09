@@ -1,7 +1,7 @@
 FROM node:10-slim
 
-LABEL "com.github.actions.name"="NPM Audit"
-LABEL "com.github.actions.description"="Runs an `npm audit fix` and opens a pull request to suggest the fixes."
+LABEL "com.github.actions.name"="Create an issue"
+LABEL "com.github.actions.description"="Creates a new issue using a template with front matter."
 LABEL "com.github.actions.icon"="gear"
 LABEL "com.github.actions.color"="red"
 
@@ -16,4 +16,4 @@ COPY . /
 
 RUN npm ci
 
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
