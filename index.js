@@ -4,10 +4,11 @@ const Toolkit = require('actions-toolkit')
 const yaml = require('js-yaml')
 const tools = new Toolkit()
 
-const FRONT_MATTER_REG = /^-{3}\n([\s\S]+)\n-{3}\n([\s\S]+)/
+const FRONT_MATTER_REG = /^-{3}\n(?<frontmatter>[\s\S]+)\n-{3}\n(?<body>[\s\S]+)/
 
 // Get the file
 const file = tools.getFile(process.argv[2] || '.github/ISSUE_TEMPLATE.md')
+console.log(file)
 
 console.log('FILE FOUND', file)
 
@@ -21,12 +22,14 @@ const octokit = tools.createOctokit()
   if (!match) return
 
   // Grab the front matter as JSON
-  const json = yaml.safeLoad(match[1])
-  console.log(json)
+  const fm = yaml.safeLoad(match.groups.frontmatter)
+  console.log(fm)
 
   // Create the new issue
   return octokit.issues.create(tools.context.repo({
-    title: json.title,
-    body: match[2]
+    title: fm.title,
+    body: match.groups.body,
+    assignees: fm.assignees || [],
+    labels: fm.labels || []
   }))
 })()
