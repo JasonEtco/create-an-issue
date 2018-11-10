@@ -44,7 +44,7 @@ title: Weekly Radar {{ date | date('dddd, MMMM Do') }}
 What's everyone up to this week?
 ```
 
-This example will create a new issue with a title like **Weekly download Saturday, November 10th**.
+This example will create a new issue with a title like **Weekly download Saturday, November 10th**. You can pass any valid [Moment.js formatting string](https://momentjs.com/docs/#/displaying/) to the filter.
 
 ### Custom templates
 
