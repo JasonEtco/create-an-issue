@@ -1,0 +1,4 @@
+---
+title: Different file
+---
+Goodbye!
