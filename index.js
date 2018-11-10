@@ -4,7 +4,7 @@ console.log(process.argv)
 const Toolkit = require('actions-toolkit')
 const fm = require('front-matter')
 
-(async () => {
+async function go () {
   const tools = new Toolkit()
 
   // Get an authenticated Octokit client
@@ -12,6 +12,7 @@ const fm = require('front-matter')
 
   // Get the file
   const file = tools.getFile(process.argv[2] || '.github/ISSUE_TEMPLATE.md')
+  console.log(file)
   console.log('FILE FOUND', file)
 
 
@@ -27,4 +28,6 @@ const fm = require('front-matter')
     labels: attributes.labels || [],
     milestone: attributes.milestone
   }))
-})()
+}
+
+go()
