@@ -1,4 +1,5 @@
 console.log('INDEX FILE LOADED')
+console.log(process.argv)
 
 const Toolkit = require('actions-toolkit')
 const fm = require('front-matter')
