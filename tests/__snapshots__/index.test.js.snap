@@ -16,6 +16,26 @@ Array [
 ]
 `;
 
+exports[`create-an-issue creates a new issue with assignees, labels and a milestone 1`] = `
+Array [
+  Array [
+    Object {
+      "assignees": Array [
+        "JasonEtco",
+      ],
+      "body": "The repo waddup is the best repo.",
+      "labels": Array [
+        "bugs",
+      ],
+      "milestone": 2,
+      "owner": "JasonEtco",
+      "repo": "waddup",
+      "title": "DO EVERYTHING",
+    },
+  ],
+]
+`;
+
 exports[`create-an-issue creates a new issue with some template variables 1`] = `
 Array [
   Array [

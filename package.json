@@ -3,7 +3,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage && standard`"
+    "test": "jest --coverage && standard"
   },
   "keywords": [],
   "author": "Jason Etcovitch <jasonetco@gmail.com>",

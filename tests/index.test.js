@@ -36,4 +36,11 @@ describe('create-an-issue', () => {
     expect(github.issues.create).toHaveBeenCalled()
     expect(github.issues.create.mock.calls).toMatchSnapshot()
   })
+
+  it('creates a new issue with assignees, labels and a milestone', async () => {
+    issueCreator.template = '.github/kitchen-sink.md'
+    await issueCreator.go()
+    expect(github.issues.create).toHaveBeenCalled()
+    expect(github.issues.create.mock.calls).toMatchSnapshot()
+  })
 })
