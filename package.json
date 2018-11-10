@@ -1,14 +1,13 @@
 {
   "name": "create-an-issue",
-  "version": "0.0.1",
-  "description": "",
+  "private": true,
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Jason Etcovitch <jasonetco@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "actions-toolkit": "0.0.2",
     "front-matter": "^3.0.1",
