@@ -29,4 +29,11 @@ describe('create-an-issue', () => {
     expect(github.issues.create).toHaveBeenCalled()
     expect(github.issues.create.mock.calls[0][0].title).toBe('Different file')
   })
+
+  it('creates a new issue with some template variables', async () => {
+    issueCreator.template = '.github/variables.md'
+    await issueCreator.go()
+    expect(github.issues.create).toHaveBeenCalled()
+    expect(github.issues.create.mock.calls).toMatchSnapshot()
+  })
 })
