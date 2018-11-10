@@ -1,0 +1,23 @@
+sudo: false
+
+language: node_js
+
+node_js:
+  - "10"
+
+notifications:
+  disabled: true
+
+before_install:
+  - npm install -g codecov
+
+install:
+  - npm install
+
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
+
+script:
+  - npm test
+  - codecov
