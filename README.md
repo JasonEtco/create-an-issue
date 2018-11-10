@@ -27,14 +27,14 @@ assignees:
 labels:
   - bug
 ---
-Someone just pushed, oh no! Here's who did it: {{ context.payload.sender.login }}
+Someone just pushed, oh no! Here's who did it: {{ payload.sender.login }}
 ```
 
-You'll notice that the above example has some `{{ mustache }}` variables. Your issue templates have access to everything about the event that triggered the action.
+You'll notice that the above example has some `{{ mustache }}` variables. Your issue templates have access to everything about the event that triggered the action. [Here is a list of all of the available template variables](https://github.com/JasonEtco/actions-toolkit/blob/master/docs/classes/context.md#properties-1)
 
 ### Dates
 
-Additionally, you can use the `date` filter to show some information about when this issue was created:
+Additionally, you can use the `date` filter and variable to show some information about when this issue was created:
 
 ```md
 ---
