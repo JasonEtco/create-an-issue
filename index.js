@@ -7,16 +7,16 @@ class IssueCreator {
   constructor (template) {
     this.template = template || '.github/ISSUE_TEMPLATE.md'
     this.tools = new Toolkit()
-    this.templateVariables = {
-      ...this.tools.context,
-      date: Date.now()
-    }
-
     this.env = nunjucks.configure({ autoescape: false })
     this.env.addFilter('date', dateFilter)
   }
 
   async go () {
+    const templateVariables = {
+      ...this.tools.context,
+      date: Date.now()
+    }
+
     // Get the file
     console.log('Reading from file', this.template)
     const file = this.tools.getFile(this.template)
@@ -26,8 +26,8 @@ class IssueCreator {
     console.log(`Front matter for ${this.template} is`, attributes)
 
     const templated = {
-      body: this.env.renderString(body, this.templateVariables),
-      title: this.env.renderString(attributes.title, this.templateVariables)
+      body: this.env.renderString(body, templateVariables),
+      title: this.env.renderString(attributes.title, templateVariables)
     }
 
     console.log('Templates compiled', templated)
