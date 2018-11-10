@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`create-an-issue creates a new issue 1`] = `
+Array [
+  Array [
+    Object {
+      "assignees": Array [],
+      "body": "Goodbye!",
+      "labels": Array [],
+      "milestone": undefined,
+      "owner": "JasonEtco",
+      "repo": "waddup",
+      "title": "Hello!",
+    },
+  ],
+]
+`;

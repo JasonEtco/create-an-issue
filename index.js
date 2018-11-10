@@ -4,11 +4,11 @@ const nunjucks = require('nunjucks')
 const dateFilter = require('nunjucks-date-filter')
 
 class IssueCreator {
-  constructor () {
+  constructor (template) {
+    this.template = template || '.github/ISSUE_TEMPLATE.md'
     this.tools = new Toolkit()
-    this.tools.workspace = tools.workspace || __dirname
-    this.templateVariables = templateVariables = {
-      ...tools.context,
+    this.templateVariables = {
+      ...this.tools.context,
       date: Date.now()
     }
 
@@ -18,34 +18,31 @@ class IssueCreator {
 
   async go () {
     // Get the file
-    const template = process.argv[2] || '.github/ISSUE_TEMPLATE.md'
-    console.log('Reading from file', template)
-    const file = tools.getFile(template)
+    console.log('Reading from file', this.template)
+    const file = this.tools.getFile(this.template)
 
     // Grab the front matter as JSON
     const { attributes, body } = fm(file)
-    console.log(`Front matter for ${template} is`, attributes)
+    console.log(`Front matter for ${this.template} is`, attributes)
 
     const templated = {
-      body: env.renderString(body, templateVariables),
-      title: env.renderString(attributes.title, templateVariables)
+      body: this.env.renderString(body, this.templateVariables),
+      title: this.env.renderString(attributes.title, this.templateVariables)
     }
 
     console.log('Templates compiled', templated)
 
     console.log('Creating new issue')
     // Get an authenticated Octokit client
-    const octokit = tools.createOctokit()
+    const octokit = this.tools.createOctokit()
 
     // Create the new issue
-    const issue = await octokit.issues.create(tools.context.repo({
+    return octokit.issues.create(this.tools.context.repo({
       ...templated,
       assignees: attributes.assignees || [],
       labels: attributes.labels || [],
       milestone: attributes.milestone
     }))
-
-    console.log(`Created issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
   }
 }
 
