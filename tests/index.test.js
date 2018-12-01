@@ -1,11 +1,13 @@
 const path = require('path')
 const IssueCreator = require('..')
+const Toolkit = require('actions-toolkit')
 
 describe('create-an-issue', () => {
-  let issueCreator, github
+  let issueCreator, tools, github
 
   beforeEach(() => {
-    issueCreator = new IssueCreator()
+    tools = new Toolkit()
+    issueCreator = new IssueCreator(tools)
     github = { issues: { create: jest.fn() } }
 
     issueCreator.tools.workspace = path.join(__dirname, 'fixtures')
@@ -20,7 +22,8 @@ describe('create-an-issue', () => {
   })
 
   it('creates a new issue from a different template', async () => {
-    issueCreator = new IssueCreator('.github/different-template.md')
+    tools.arguments._ = ['.github/different-template.md']
+    issueCreator = new IssueCreator(tools)
     issueCreator.tools.workspace = path.join(__dirname, 'fixtures')
     issueCreator.tools.context.payload = { repository: { owner: { login: 'JasonEtco' }, name: 'waddup' } }
     issueCreator.tools.createOctokit = jest.fn(() => github)
