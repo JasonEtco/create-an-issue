@@ -6,7 +6,7 @@
 
 This GitHub Action creates a new issue based on an issue template file. Here's an example workflow that creates a new issue any time you push a commit:
 
-```
+```workflow
 workflow "Create an issue on push" {
   on = "push"
   resolves = ["Create issue"]
@@ -20,7 +20,7 @@ action "Create issue" {
 
 This reads from the `.github/ISSUE_TEMPLATE.md` file. This file should have front matter to help construct the new issue:
 
-```md
+```markdown
 ---
 title: Someone just pushed
 assignees:
@@ -37,7 +37,7 @@ You'll notice that the above example has some `{{ mustache }}` variables. Your i
 
 Additionally, you can use the `date` filter and variable to show some information about when this issue was created:
 
-```md
+```markdown
 ---
 title: Weekly Radar {{ date | date('dddd, MMMM Do') }}
 ---
@@ -50,7 +50,7 @@ This example will create a new issue with a title like **Weekly Radar Saturday, 
 
 Don't want to use `.github/ISSUE_TEMPLATE.md`? You can pass an argument pointing the action to a different template:
 
-```
+```workflow
 action "Create issue" {
   uses = "JasonEtco/create-an-issue@master"
   secrets = ["GITHUB_TOKEN"]
