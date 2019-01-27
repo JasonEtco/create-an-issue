@@ -10,7 +10,7 @@ describe('create-an-issue', () => {
 
     issueCreator.tools.workspace = path.join(__dirname, 'fixtures')
     issueCreator.tools.context.payload = { repository: { owner: { login: 'JasonEtco' }, name: 'waddup' } }
-    issueCreator.tools.createOctokit = jest.fn(() => github)
+    issueCreator.tools.github = github
   })
 
   it('creates a new issue', async () => {
@@ -23,7 +23,7 @@ describe('create-an-issue', () => {
     issueCreator = new IssueCreator('.github/different-template.md')
     issueCreator.tools.workspace = path.join(__dirname, 'fixtures')
     issueCreator.tools.context.payload = { repository: { owner: { login: 'JasonEtco' }, name: 'waddup' } }
-    issueCreator.tools.createOctokit = jest.fn(() => github)
+    issueCreator.tools.github = github
 
     await issueCreator.go()
     expect(github.issues.create).toHaveBeenCalled()
