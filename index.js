@@ -34,14 +34,12 @@ class IssueCreator {
     console.log('Creating new issue')
 
     // Create the new issue
-    const newIssue = await this.tools.github.issues.create(this.tools.context.repo({
+    return this.tools.github.issues.create(this.tools.context.repo({
       ...templated,
       assignees: attributes.assignees || [],
       labels: attributes.labels || [],
       milestone: attributes.milestone
     }))
-
-    console.log(`Created new issue ${newIssue.data.title}! Check it out: ${newIssue.data.html_url}`)
   }
 }
 
