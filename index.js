@@ -1,12 +1,14 @@
-const { Toolkit } = require('actions-toolkit')
 const fm = require('front-matter')
 const nunjucks = require('nunjucks')
 const dateFilter = require('nunjucks-date-filter')
 
 class IssueCreator {
-  constructor (template) {
-    this.template = template || '.github/ISSUE_TEMPLATE.md'
-    this.tools = new Toolkit()
+  /**
+   * @param {import('actions-toolkit').Toolkit} tools
+   */
+  constructor (tools) {
+    this.tools = tools
+    this.template = this.tools.arguments._[0] || '.github/ISSUE_TEMPLATE.md'
     this.env = nunjucks.configure({ autoescape: false })
     this.env.addFilter('date', dateFilter)
   }
