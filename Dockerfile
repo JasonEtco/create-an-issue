@@ -9,9 +9,8 @@ LABEL "repository"="http://github.com/JasonEtco/create-an-issue"
 LABEL "homepage"="http://github.com/JasonEtco/create-an-issue"
 LABEL "maintainer"="Jason Etcovitch <jasonetco@github.com>"
 
-ADD package.json /package.json
-ADD package-lock.json /package-lock.json
 WORKDIR /
+ADD package*.json ./
 
 RUN npm ci
 
