@@ -7,8 +7,7 @@ class IssueCreator {
    * @param {import('actions-toolkit').Toolkit} tools
    */
   constructor (tools) {
-    const args = tools.arguments._
-    this.template = args[0] || '.github/ISSUE_TEMPLATE.md'
+    this.template = tools.arguments._[0] || '.github/ISSUE_TEMPLATE.md'
     this.env = nunjucks.configure({ autoescape: false })
     this.env.addFilter('date', dateFilter)
   }
