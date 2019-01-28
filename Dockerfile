@@ -9,11 +9,8 @@ LABEL "repository"="http://github.com/JasonEtco/create-an-issue"
 LABEL "homepage"="http://github.com/JasonEtco/create-an-issue"
 LABEL "maintainer"="Jason Etcovitch <jasonetco@github.com>"
 
-WORKDIR /
-ADD package*.json ./
-
+COPY package*.json ./
 RUN npm ci
-
-COPY . /
+COPY . .
 
 ENTRYPOINT ["node", "/entrypoint.js"]
