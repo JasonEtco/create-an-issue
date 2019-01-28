@@ -33,13 +33,10 @@ class IssueCreator {
     }
 
     console.log('Templates compiled', templated)
-
     console.log('Creating new issue')
-    // Get an authenticated Octokit client
-    const octokit = this.tools.createOctokit()
 
     // Create the new issue
-    return octokit.issues.create(this.tools.context.repo({
+    return this.tools.github.issues.create(this.tools.context.repo({
       ...templated,
       assignees: attributes.assignees || [],
       labels: attributes.labels || [],
