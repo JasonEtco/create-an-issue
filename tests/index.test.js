@@ -1,18 +1,19 @@
 const path = require('path')
 const IssueCreator = require('..')
-const Toolkit = require('actions-toolkit')
+const { Toolkit } = require('actions-toolkit')
 
 describe('create-an-issue', () => {
   let issueCreator, tools, github
 
   beforeEach(() => {
     tools = new Toolkit()
-    issueCreator = new IssueCreator(tools)
     github = { issues: { create: jest.fn() } }
 
-    issueCreator.tools.workspace = path.join(__dirname, 'fixtures')
-    issueCreator.tools.context.payload = { repository: { owner: { login: 'JasonEtco' }, name: 'waddup' } }
-    issueCreator.tools.github = github
+    tools.workspace = path.join(__dirname, 'fixtures')
+    tools.context.payload = { repository: { owner: { login: 'JasonEtco' }, name: 'waddup' } }
+    tools.github = github
+
+    issueCreator = new IssueCreator(tools)
   })
 
   it('creates a new issue', async () => {
