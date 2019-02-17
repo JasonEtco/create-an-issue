@@ -20,20 +20,20 @@ class IssueCreator {
     }
 
     // Get the file
-    console.log('Reading from file', this.template)
+    this.tools.log('Reading from file', this.template)
     const file = this.tools.getFile(this.template)
 
     // Grab the front matter as JSON
     const { attributes, body } = fm(file)
-    console.log(`Front matter for ${this.template} is`, attributes)
+    this.tools.log(`Front matter for ${this.template} is`, attributes)
 
     const templated = {
       body: this.env.renderString(body, templateVariables),
       title: this.env.renderString(attributes.title, templateVariables)
     }
 
-    console.log('Templates compiled', templated)
-    console.log('Creating new issue')
+    this.tools.log('Templates compiled', templated)
+    this.tools.log('Creating new issue')
 
     // Create the new issue
     return this.tools.github.issues.create(this.tools.context.repo({
