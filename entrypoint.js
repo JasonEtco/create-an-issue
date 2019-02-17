@@ -1,5 +1,5 @@
+const { Toolkit } = require('actions-toolkit')
 const IssueCreator = require('.')
-const Toolkit = require('actions-toolkit')
 
 const tools = new Toolkit()
 const issueCreator = new IssueCreator(tools)
