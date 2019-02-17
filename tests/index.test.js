@@ -6,7 +6,12 @@ describe('create-an-issue', () => {
   let issueCreator, tools, github
 
   beforeEach(() => {
-    tools = new Toolkit()
+    tools = new Toolkit({
+      logger: {
+        info: jest.fn(),
+        warn: jest.fn()
+      }
+    })
     github = { issues: { create: jest.fn() } }
 
     tools.workspace = path.join(__dirname, 'fixtures')
