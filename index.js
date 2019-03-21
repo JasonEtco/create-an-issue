@@ -36,12 +36,13 @@ class IssueCreator {
     this.tools.log('Creating new issue')
 
     // Create the new issue
-    return this.tools.github.issues.create(this.tools.context.repo({
+    return this.tools.github.issues.create({
+      ...this.tools.context.repo,
       ...templated,
       assignees: attributes.assignees || [],
       labels: attributes.labels || [],
       milestone: attributes.milestone
-    }))
+    })
   }
 }
 
