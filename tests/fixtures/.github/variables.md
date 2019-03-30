@@ -1,4 +1,4 @@
 ---
-title: Hello {{ payload.repository.owner.login }}
+title: Hello {{ action }}
 ---
-The repo {{ payload.repository.name }} is the best repo.
+The action {{ action }} is the best action.
