@@ -15,7 +15,6 @@ describe('create-an-issue', () => {
     github = { issues: { create: jest.fn() } }
 
     tools.workspace = path.join(__dirname, 'fixtures')
-    tools.context.payload = { repository: { owner: { login: 'JasonEtco' }, name: 'waddup' } }
     tools.github = github
 
     issueCreator = new IssueCreator(tools)
