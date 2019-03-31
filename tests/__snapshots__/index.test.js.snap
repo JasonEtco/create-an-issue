@@ -16,6 +16,14 @@ Array [
 ]
 `;
 
+exports[`create-an-issue creates a new issue 2`] = `
+Array [
+  Array [
+    "Created issue Hello!#1: www",
+  ],
+]
+`;
+
 exports[`create-an-issue creates a new issue with assignees, labels and a milestone 1`] = `
 Array [
   Array [
