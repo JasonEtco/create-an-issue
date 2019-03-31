@@ -15,15 +15,26 @@ describe('create-an-issue', () => {
     })
 
     tools = new Toolkit({ logger: new Signale({ disabled: true }) })
-    tools.github = { issues: { create: jest.fn(({ title }) => Promise.resolve({ data: { number: 1, title, html_url: 'www' } })) } }
+    tools.github = {
+      issues: {
+        create: jest.fn(({ title }) => Promise.resolve({ data: {
+          title,
+          number: 1,
+          html_url: 'www'
+        } }))
+      }
+    }
     tools.exit.success = jest.fn()
     tools.exit.failure = jest.fn()
   })
 
   it('creates a new issue', async () => {
+    tools.log.success = jest.fn()
     await actionFn(tools)
     expect(tools.github.issues.create).toHaveBeenCalled()
     expect(tools.github.issues.create.mock.calls).toMatchSnapshot()
+    expect(tools.log.success).toHaveBeenCalled()
+    expect(tools.log.success.mock.calls).toMatchSnapshot()
   })
 
   it('creates a new issue from a different template', async () => {
