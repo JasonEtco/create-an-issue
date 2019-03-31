@@ -1,5 +1,4 @@
 const path = require('path')
-const { Signale } = require('signale')
 const { Toolkit } = require('actions-toolkit')
 
 describe('create-an-issue', () => {
@@ -14,7 +13,11 @@ describe('create-an-issue', () => {
       GITHUB_WORKSPACE: path.join(__dirname, 'fixtures')
     })
 
-    tools = new Toolkit({ logger: new Signale({ disabled: true }) })
+    tools = new Toolkit({ logger: {
+      info: jest.fn(),
+      success: jest.fn(),
+      warn: jest.fn()
+    } })
     tools.github = {
       issues: {
         create: jest.fn(({ title }) => Promise.resolve({ data: {
