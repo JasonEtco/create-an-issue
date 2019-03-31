@@ -23,7 +23,7 @@ Array [
       "assignees": Array [
         "JasonEtco",
       ],
-      "body": "The repo waddup is the best repo.",
+      "body": "The action create-an-issue is the best action.",
       "labels": Array [
         "bugs",
       ],
@@ -41,12 +41,12 @@ Array [
   Array [
     Object {
       "assignees": Array [],
-      "body": "The repo waddup is the best repo.",
+      "body": "The action create-an-issue is the best action.",
       "labels": Array [],
       "milestone": undefined,
       "owner": "JasonEtco",
       "repo": "waddup",
-      "title": "Hello JasonEtco",
+      "title": "Hello create-an-issue",
     },
   ],
 ]
