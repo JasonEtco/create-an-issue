@@ -1,19 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`create-an-issue creates a new issue 1`] = `
-Array [
-  Array [
-    Object {
-      "assignees": Array [],
-      "body": "Goodbye!",
-      "labels": Array [],
-      "milestone": undefined,
-      "owner": "JasonEtco",
-      "repo": "waddup",
-      "title": "Hello!",
-    },
-  ],
-]
+Object {
+  "assignees": Array [],
+  "body": "Goodbye!",
+  "labels": Array [],
+  "title": "Hello!",
+}
 `;
 
 exports[`create-an-issue creates a new issue 2`] = `
@@ -24,22 +17,41 @@ Array [
 ]
 `;
 
-exports[`create-an-issue creates a new issue with assignees, labels and a milestone 1`] = `
+exports[`create-an-issue creates a new issue from a different template 1`] = `
+Object {
+  "assignees": Array [],
+  "body": "Goodbye!",
+  "labels": Array [],
+  "title": "Different file",
+}
+`;
+
+exports[`create-an-issue creates a new issue from a different template 2`] = `
 Array [
   Array [
-    Object {
-      "assignees": Array [
-        "JasonEtco",
-      ],
-      "body": "The action create-an-issue is the best action.",
-      "labels": Array [
-        "bugs",
-      ],
-      "milestone": 2,
-      "owner": "JasonEtco",
-      "repo": "waddup",
-      "title": "DO EVERYTHING",
-    },
+    "Created issue Different file#1: www",
+  ],
+]
+`;
+
+exports[`create-an-issue creates a new issue with assignees, labels and a milestone 1`] = `
+Object {
+  "assignees": Array [
+    "JasonEtco",
+  ],
+  "body": "The action create-an-issue is the best action.",
+  "labels": Array [
+    "bugs",
+  ],
+  "milestone": 2,
+  "title": "DO EVERYTHING",
+}
+`;
+
+exports[`create-an-issue creates a new issue with assignees, labels and a milestone 2`] = `
+Array [
+  Array [
+    "Created issue DO EVERYTHING#1: www",
   ],
 ]
 `;
@@ -47,15 +59,7 @@ Array [
 exports[`create-an-issue creates a new issue with some template variables 1`] = `
 Array [
   Array [
-    Object {
-      "assignees": Array [],
-      "body": "The action create-an-issue is the best action.",
-      "labels": Array [],
-      "milestone": undefined,
-      "owner": "JasonEtco",
-      "repo": "waddup",
-      "title": "Hello create-an-issue",
-    },
+    "Created issue Hello create-an-issue#1: www",
   ],
 ]
 `;
