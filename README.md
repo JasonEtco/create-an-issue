@@ -57,3 +57,26 @@ action "Create issue" {
   args = ".github/some-other-template.md"
 }
 ```
+
+#### Supported Custom Templates Structure:
+Template files should have the structure:
+```yaml
+---
+# Issue Parameters
+title: "A New Issue"
+labels:
+  - an-issue
+---
+# Issue Body
+Making a new issue can be automated!
+```
+
+#### Supported Issue Parameters (front matter):
+Field | Type | Description
+----- | ---- | -----------
+title | string | The title of the issue.
+labels | string[] | Labels to associate with this issue.
+milestone | integer | The `number` of the milestone to associate this issue with.
+assignees | string[] | Logins for Users to assign to this issue.
+name | string | Name of the template. _NOTE: Only used by the GitHub UI._
+about | string | Information describing this template. _NOTE: Only used by the GitHub UI._
