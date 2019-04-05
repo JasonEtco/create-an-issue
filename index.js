@@ -14,7 +14,7 @@ Toolkit.run(async tools => {
   }
 
   // Get the file
-  tools.log('Reading from file', template)
+  tools.log.debug('Reading from file', template)
   const file = tools.getFile(template)
 
   // Grab the front matter as JSON
@@ -26,8 +26,8 @@ Toolkit.run(async tools => {
     title: env.renderString(attributes.title, templateVariables)
   }
 
-  tools.log('Templates compiled', templated)
-  tools.log('Creating new issue')
+  tools.log.debug('Templates compiled', templated)
+  tools.log.info(`Creating new issue ${templated.title}`)
 
   // Create the new issue
   const issue = await tools.github.issues.create({
