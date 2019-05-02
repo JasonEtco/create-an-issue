@@ -38,12 +38,12 @@ exports[`create-an-issue creates a new issue with assignees and labels as comma-
 Object {
   "assignees": Array [
     "JasonEtco",
-    "matchai"
+    "matchai",
   ],
   "body": "The action create-an-issue is the best action.",
   "labels": Array [
     "bug",
-    "enhancement"
+    "enhancement",
   ],
   "title": "DO EVERYTHING",
 }
