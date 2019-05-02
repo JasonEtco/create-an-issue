@@ -3,6 +3,11 @@ const fm = require('front-matter')
 const nunjucks = require('nunjucks')
 const dateFilter = require('nunjucks-date-filter')
 
+function listToArray (list) {
+  if (!list) return []
+  return Array.isArray(list) ? list : list.split(', ')
+}
+
 Toolkit.run(async tools => {
   const template = tools.arguments._[0] || '.github/ISSUE_TEMPLATE.md'
   const env = nunjucks.configure({ autoescape: false })
@@ -33,8 +38,8 @@ Toolkit.run(async tools => {
   const issue = await tools.github.issues.create({
     ...tools.context.repo,
     ...templated,
-    assignees: attributes.assignees || [],
-    labels: attributes.labels || [],
+    assignees: listToArray(attributes.assignees),
+    labels: listToArray(attributes.labels),
     milestone: attributes.milestone
   })
 

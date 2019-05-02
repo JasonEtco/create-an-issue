@@ -62,4 +62,12 @@ describe('create-an-issue', () => {
     expect(tools.log.success).toHaveBeenCalled()
     expect(tools.log.success.mock.calls).toMatchSnapshot()
   })
+
+  it('creates a new issue with assignees and labels as comma-delimited strings', async () => {
+    tools.arguments._[0] = '.github/split-strings.md'
+    await actionFn(tools)
+    expect(params).toMatchSnapshot()
+    expect(tools.log.success).toHaveBeenCalled()
+    expect(tools.log.success.mock.calls).toMatchSnapshot()
+  })
 })
