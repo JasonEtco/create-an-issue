@@ -34,6 +34,29 @@ Array [
 ]
 `;
 
+exports[`create-an-issue creates a new issue with assignees and labels as comma-delimited strings 1`] = `
+Object {
+  "assignees": Array [
+    "JasonEtco",
+    "matchai"
+  ],
+  "body": "The action create-an-issue is the best action.",
+  "labels": Array [
+    "bug",
+    "enhancement"
+  ],
+  "title": "DO EVERYTHING",
+}
+`;
+
+exports[`create-an-issue creates a new issue with assignees and labels as comma-delimited strings 2`] = `
+Array [
+  Array [
+    "Created issue DO EVERYTHING#1: www",
+  ],
+]
+`;
+
 exports[`create-an-issue creates a new issue with assignees, labels and a milestone 1`] = `
 Object {
   "assignees": Array [
