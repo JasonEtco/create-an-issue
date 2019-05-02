@@ -23,10 +23,8 @@ This reads from the `.github/ISSUE_TEMPLATE.md` file. This file should have fron
 ```markdown
 ---
 title: Someone just pushed
-assignees:
-  - JasonEtco
-labels:
-  - bug
+assignees: JasonEtco, matchai
+labels: bug, enhancement
 ---
 Someone just pushed, oh no! Here's who did it: {{ payload.sender.login }}
 ```
