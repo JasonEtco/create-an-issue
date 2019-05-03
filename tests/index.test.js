@@ -23,7 +23,8 @@ describe('create-an-issue', () => {
         info: jest.fn(),
         success: jest.fn(),
         warn: jest.fn(),
-        debug: jest.fn()
+        debug: jest.fn(),
+        error: jest.fn()
       }
     })
 
@@ -69,5 +70,15 @@ describe('create-an-issue', () => {
     expect(params).toMatchSnapshot()
     expect(tools.log.success).toHaveBeenCalled()
     expect(tools.log.success.mock.calls).toMatchSnapshot()
+  })
+
+  it('logs a helpful error if creating an issue throws an error', async () => {
+    nock.cleanAll()
+    nock('https://api.github.com')
+      .post(/\/repos\/.*\/.*\/issues/).replyWithError('Oh no something borked!')
+    await actionFn(tools)
+    expect(tools.log.error).toHaveBeenCalled()
+    expect(tools.log.error.mock.calls).toMatchSnapshot()
+    expect(tools.exit.failure).toHaveBeenCalled()
   })
 })
