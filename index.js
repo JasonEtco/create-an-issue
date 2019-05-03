@@ -46,7 +46,8 @@ Toolkit.run(async tools => {
 
     tools.log.success(`Created issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
   } catch (err) {
-    tools.log.error(`An error occurred while creating the issue. This might be caused by a malformed issue title, or a typo in the labels or assignees. Check ${template}!`, err)
+    tools.log.error(`An error occurred while creating the issue. This might be caused by a malformed issue title, or a typo in the labels or assignees. Check ${template}!`)
+    tools.log.error(err)
     tools.exit.failure()
   }
 }, {

@@ -91,6 +91,8 @@ exports[`create-an-issue logs a helpful error if creating an issue throws an err
 Array [
   Array [
     "An error occurred while creating the issue. This might be caused by a malformed issue title, or a typo in the labels or assignees. Check .github/ISSUE_TEMPLATE.md!",
+  ],
+  Array [
     [HttpError: request to https://api.github.com/repos/JasonEtco/waddup/issues failed, reason: Oh no something borked!],
   ],
 ]
