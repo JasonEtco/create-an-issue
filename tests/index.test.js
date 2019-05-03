@@ -75,7 +75,24 @@ describe('create-an-issue', () => {
   it('logs a helpful error if creating an issue throws an error', async () => {
     nock.cleanAll()
     nock('https://api.github.com')
-      .post(/\/repos\/.*\/.*\/issues/).replyWithError('Oh no something borked!')
+      .post(/\/repos\/.*\/.*\/issues/).reply(500, {
+        message: 'Validation error'
+      })
+
+    await actionFn(tools)
+    expect(tools.log.error).toHaveBeenCalled()
+    expect(tools.log.error.mock.calls).toMatchSnapshot()
+    expect(tools.exit.failure).toHaveBeenCalled()
+  })
+
+  it('logs a helpful error if creating an issue throws an error with more errors', async () => {
+    nock.cleanAll()
+    nock('https://api.github.com')
+      .post(/\/repos\/.*\/.*\/issues/).reply(500, {
+        message: 'Validation error',
+        errors: [{ foo: true }]
+      })
+
     await actionFn(tools)
     expect(tools.log.error).toHaveBeenCalled()
     expect(tools.log.error.mock.calls).toMatchSnapshot()

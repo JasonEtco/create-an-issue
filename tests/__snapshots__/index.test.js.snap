@@ -93,7 +93,25 @@ Array [
     "An error occurred while creating the issue. This might be caused by a malformed issue title, or a typo in the labels or assignees. Check .github/ISSUE_TEMPLATE.md!",
   ],
   Array [
-    [HttpError: request to https://api.github.com/repos/JasonEtco/waddup/issues failed, reason: Oh no something borked!],
+    [HttpError: Validation error],
+  ],
+]
+`;
+
+exports[`create-an-issue logs a helpful error if creating an issue throws an error with more errors 1`] = `
+Array [
+  Array [
+    "An error occurred while creating the issue. This might be caused by a malformed issue title, or a typo in the labels or assignees. Check .github/ISSUE_TEMPLATE.md!",
+  ],
+  Array [
+    [HttpError: Validation error],
+  ],
+  Array [
+    Array [
+      Object {
+        "foo": true,
+      },
+    ],
   ],
 ]
 `;
