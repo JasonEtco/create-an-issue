@@ -10,9 +10,9 @@ describe('create-an-issue', () => {
 
     nock('https://api.github.com')
       .post(/\/repos\/.*\/.*\/issues/).reply(200, (_, body) => {
-        params = JSON.parse(body)
+        params = body
         return {
-          title: params.title,
+          title: body.title,
           number: 1,
           html_url: 'www'
         }
