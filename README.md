@@ -53,5 +53,6 @@ steps:
   - uses: JasonEtco/create-an-issue@master
     env: 
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    args: .github/some-other-template.md
+    with:
+      args: .github/some-other-template.md
 ```
