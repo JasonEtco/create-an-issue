@@ -1,3 +1,4 @@
+const core = require('@actions/core')
 const { Toolkit } = require('actions-toolkit')
 const fm = require('front-matter')
 const nunjucks = require('nunjucks')
@@ -9,7 +10,7 @@ function listToArray (list) {
 }
 
 Toolkit.run(async tools => {
-  const template = tools.arguments._[0] || '.github/ISSUE_TEMPLATE.md'
+  const template = core.getInput('filename') || '.github/ISSUE_TEMPLATE.md'
   const env = nunjucks.configure({ autoescape: false })
   env.addFilter('date', dateFilter)
 

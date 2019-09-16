@@ -46,7 +46,7 @@ This example will create a new issue with a title like **Weekly Radar Saturday, 
 
 ### Custom templates
 
-Don't want to use `.github/ISSUE_TEMPLATE.md`? You can pass an argument pointing the action to a different template:
+Don't want to use `.github/ISSUE_TEMPLATE.md`? You can pass an input pointing the action to a different template:
 
 ```yaml
 steps:
@@ -54,5 +54,5 @@ steps:
     env: 
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     with:
-      args: .github/some-other-template.md
+      filename: .github/some-other-template.md
 ```
