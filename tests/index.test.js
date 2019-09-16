@@ -30,6 +30,9 @@ describe('create-an-issue', () => {
 
     tools.exit.success = jest.fn()
     tools.exit.failure = jest.fn()
+
+    // Ensure that the filename input isn't set at the start of a test
+    delete process.env.INPUT_FILENAME
   })
 
   it('creates a new issue', async () => {
@@ -41,7 +44,7 @@ describe('create-an-issue', () => {
   })
 
   it('creates a new issue from a different template', async () => {
-    tools.arguments._ = ['.github/different-template.md']
+    process.env.INPUT_FILENAME = '.github/different-template.md'
     tools.context.payload = { repository: { owner: { login: 'JasonEtco' }, name: 'waddup' } }
     await actionFn(tools)
     expect(params).toMatchSnapshot()
@@ -50,14 +53,14 @@ describe('create-an-issue', () => {
   })
 
   it('creates a new issue with some template variables', async () => {
-    tools.arguments._[0] = '.github/variables.md'
+    process.env.INPUT_FILENAME = '.github/variables.md'
     await actionFn(tools)
     expect(tools.log.success).toHaveBeenCalled()
     expect(tools.log.success.mock.calls).toMatchSnapshot()
   })
 
   it('creates a new issue with assignees, labels and a milestone', async () => {
-    tools.arguments._[0] = '.github/kitchen-sink.md'
+    process.env.INPUT_FILENAME = '.github/kitchen-sink.md'
     await actionFn(tools)
     expect(params).toMatchSnapshot()
     expect(tools.log.success).toHaveBeenCalled()
@@ -65,7 +68,7 @@ describe('create-an-issue', () => {
   })
 
   it('creates a new issue with assignees and labels as comma-delimited strings', async () => {
-    tools.arguments._[0] = '.github/split-strings.md'
+    process.env.INPUT_FILENAME = '.github/split-strings.md'
     await actionFn(tools)
     expect(params).toMatchSnapshot()
     expect(tools.log.success).toHaveBeenCalled()
