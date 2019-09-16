@@ -1,21 +1,21 @@
 <h3 align="center">Create an Issue Action</h3>
 <p align="center">A GitHub Action that creates a new issue using a template file.<p>
-<p align="center"><a href="https://action-badges.now.sh"><img src="https://action-badges.now.sh/JasonEtco/create-an-issue" alt="Build Status" /></a> <a href="https://codecov.io/gh/JasonEtco/create-an-issue/"><img src="https://badgen.now.sh/codecov/c/github/JasonEtco/create-an-issue" alt="Codecov"></a></p>
+<p align="center"><a href="https://github.com/JasonEtco/create-an-issue"><img alt="GitHub Actions status" src="https://github.com/JasonEtco/create-an-issue/workflows/Node%20CI/badge.svg"></a> <a href="https://codecov.io/gh/JasonEtco/create-an-issue/"><img src="https://badgen.now.sh/codecov/c/github/JasonEtco/create-an-issue" alt="Codecov"></a></p>
 
 ## Usage
 
 This GitHub Action creates a new issue based on an issue template file. Here's an example workflow that creates a new issue any time you push a commit:
 
-```workflow
-workflow "Create an issue on push" {
-  on = "push"
-  resolves = ["Create issue"]
-}
-
-action "Create issue" {
-  uses = "JasonEtco/create-an-issue@master"
-  secrets = ["GITHUB_TOKEN"]
-}
+```yaml
+# .github/workflows/issue-on-push.yml
+on: [push]
+name: Create an issue on push
+jobs:
+  stuff:
+    steps:
+      - uses: JasonEtco/create-an-issue@master
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 This reads from the `.github/ISSUE_TEMPLATE.md` file. This file should have front matter to help construct the new issue:
@@ -48,10 +48,11 @@ This example will create a new issue with a title like **Weekly Radar Saturday, 
 
 Don't want to use `.github/ISSUE_TEMPLATE.md`? You can pass an argument pointing the action to a different template:
 
-```workflow
-action "Create issue" {
-  uses = "JasonEtco/create-an-issue@master"
-  secrets = ["GITHUB_TOKEN"]
-  args = ".github/some-other-template.md"
-}
+```yaml
+steps:
+  - uses: JasonEtco/create-an-issue@master
+    env: 
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      args: .github/some-other-template.md
 ```

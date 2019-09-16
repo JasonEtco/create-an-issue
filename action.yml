@@ -1,0 +1,8 @@
+name: Create an issue
+description: Creates a new issue using a template with front matter.
+runs:
+  using: docker
+  image: Dockerfile
+branding:
+  icon: alert-circle
+  color: gray-dark
