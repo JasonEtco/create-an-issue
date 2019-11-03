@@ -59,3 +59,5 @@ steps:
       dedler sışın
       yağa yağa paraya düşmese dövecem haaa bank otur 
 ```
+
+gül hanım sizler öyle ama bizler işyapıyık elde kime orta ruy hali ALİŞŞŞ GÜLMEYE BAYILLL 
