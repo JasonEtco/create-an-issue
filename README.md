@@ -56,4 +56,6 @@ steps:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     with:
       filename: .github/some-other-template.md
+      dedler sışın
+      yağa yağa paraya düşmese dövecem haaa bank otur 
 ```
