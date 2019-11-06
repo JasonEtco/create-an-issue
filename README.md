@@ -50,6 +50,7 @@ Don't want to use `.github/ISSUE_TEMPLATE.md`? You can pass an input pointing th
 
 ```yaml
 steps:
+  - uses: actions/checkout@master
   - uses: JasonEtco/create-an-issue@master
     env: 
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
