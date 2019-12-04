@@ -11,6 +11,7 @@ function listToArray (list) {
 
 Toolkit.run(async tools => {
   const template = core.getInput('filename') || '.github/ISSUE_TEMPLATE.md'
+  const assignees = core.getInput('assignee')
   const env = nunjucks.configure({ autoescape: false })
   env.addFilter('date', dateFilter)
 
@@ -40,7 +41,7 @@ Toolkit.run(async tools => {
     const issue = await tools.github.issues.create({
       ...tools.context.repo,
       ...templated,
-      assignees: listToArray(attributes.assignees),
+      assignees: assignees ? listToArray(assignees) : listToArray(attributes.assignees),
       labels: listToArray(attributes.labels),
       milestone: attributes.milestone
     })

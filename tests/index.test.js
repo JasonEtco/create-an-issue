@@ -75,6 +75,22 @@ describe('create-an-issue', () => {
     expect(tools.log.success.mock.calls).toMatchSnapshot()
   })
 
+  it('creates a new issue with an assignee passed by input', async () => {
+    process.env.INPUT_ASSIGNEE = 'octocat'
+    await actionFn(tools)
+    expect(params).toMatchSnapshot()
+    expect(tools.log.success).toHaveBeenCalled()
+    expect(tools.log.success.mock.calls).toMatchSnapshot()
+  })
+
+  it('creates a new issue with multiple assignees passed by input', async () => {
+    process.env.INPUT_ASSIGNEE = 'octocat, JasonEtco'
+    await actionFn(tools)
+    expect(params).toMatchSnapshot()
+    expect(tools.log.success).toHaveBeenCalled()
+    expect(tools.log.success.mock.calls).toMatchSnapshot()
+  })
+
   it('logs a helpful error if creating an issue throws an error', async () => {
     nock.cleanAll()
     nock('https://api.github.com')

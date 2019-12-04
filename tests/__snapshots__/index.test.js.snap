@@ -34,6 +34,23 @@ Array [
 ]
 `;
 
+exports[`create-an-issue creates a new issue with an assignee passed by input 1`] = `
+Object {
+  "assignees": Array [],
+  "body": "Goodbye!",
+  "labels": Array [],
+  "title": "Hello!",
+}
+`;
+
+exports[`create-an-issue creates a new issue with an assignee passed by input 2`] = `
+Array [
+  Array [
+    "Created issue Hello!#1: www",
+  ],
+]
+`;
+
 exports[`create-an-issue creates a new issue with assignees and labels as comma-delimited strings 1`] = `
 Object {
   "assignees": Array [
@@ -83,6 +100,45 @@ exports[`create-an-issue creates a new issue with some template variables 1`] = 
 Array [
   Array [
     "Created issue Hello create-an-issue#1: www",
+  ],
+]
+`;
+
+exports[`create-an-issue creates a new issue with an assignee passed by input 1`] = `
+Object {
+  "assignees": Array [
+    "octocat",
+  ],
+  "body": "Goodbye!",
+  "labels": Array [],
+  "title": "Hello!",
+}
+`;
+
+exports[`create-an-issue creates a new issue with an assignee passed by input 2`] = `
+Array [
+  Array [
+    "Created issue Hello!#1: www",
+  ],
+]
+`;
+
+exports[`create-an-issue creates a new issue with multiple assignees passed by input 1`] = `
+Object {
+  "assignees": Array [
+    "octocat",
+    "JasonEtco",
+  ],
+  "body": "Goodbye!",
+  "labels": Array [],
+  "title": "Hello!",
+}
+`;
+
+exports[`create-an-issue creates a new issue with multiple assignees passed by input 2`] = `
+Array [
+  Array [
+    "Created issue Hello!#1: www",
   ],
 ]
 `;
