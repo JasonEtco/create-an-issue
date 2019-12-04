@@ -11,7 +11,7 @@ function listToArray (list) {
 
 Toolkit.run(async tools => {
   const template = core.getInput('filename') || '.github/ISSUE_TEMPLATE.md'
-  const assignees = core.getInput('assignee')
+  const assignees = core.getInput('assignees')
   const env = nunjucks.configure({ autoescape: false })
   env.addFilter('date', dateFilter)
 

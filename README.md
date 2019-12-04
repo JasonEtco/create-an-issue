@@ -69,5 +69,5 @@ steps:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     with:
-      assignee: JasonEtco, octocat
+      assignees: JasonEtco, octocat
 ```

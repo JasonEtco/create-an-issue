@@ -7,7 +7,7 @@ branding:
   icon: alert-circle
   color: gray-dark
 inputs:
-  assignee:
+  assignees:
     description: GitHub handle of the user(s) to assign the issue (comma-separated)
   filename:
     description: The name of the file to use as the issue template
