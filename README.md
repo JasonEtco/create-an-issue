@@ -71,3 +71,16 @@ steps:
     with:
       assignees: JasonEtco, octocat
 ```
+
+### URL output
+
+If you need the URL of the issue that was created for another Action, you can use the `url` output:
+
+```yaml
+steps:
+  - uses: JasonEtco/create-an-issue@master
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    id: create-issue
+  - run: 'echo Created ${{ steps.create-issue.outputs.url }}'
+```
