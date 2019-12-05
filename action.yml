@@ -13,5 +13,7 @@ inputs:
     description: The name of the file to use as the issue template
     default: .github/ISSUE_TEMPLATE.md
 outputs:
+  number:
+    description: Number of the issue that was created
   url:
     description: URL of the issue that was created

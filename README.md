@@ -72,9 +72,9 @@ steps:
       assignees: JasonEtco, octocat
 ```
 
-### URL output
+### Outputs
 
-If you need the URL of the issue that was created for another Action, you can use the `url` output:
+If you need the number or URL of the issue that was created for another Action, you can use the `number` or `url` outputs, respectively. For example:
 
 ```yaml
 steps:
@@ -82,5 +82,6 @@ steps:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     id: create-issue
+  - run: 'echo Created issue number ${{ steps.create-issue.outputs.number }}'
   - run: 'echo Created ${{ steps.create-issue.outputs.url }}'
 ```
