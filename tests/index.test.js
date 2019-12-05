@@ -1,4 +1,5 @@
 const nock = require('nock')
+const core = require('@actions/core')
 const { Toolkit } = require('actions-toolkit')
 
 describe('create-an-issue', () => {
@@ -28,6 +29,10 @@ describe('create-an-issue', () => {
       }
     })
 
+    // Turn core.setOutput into a mocked noop
+    jest.spyOn(core, 'setOutput')
+      .mockImplementation(() => {})
+
     tools.exit.success = jest.fn()
     tools.exit.failure = jest.fn()
 
@@ -41,6 +46,11 @@ describe('create-an-issue', () => {
     expect(params).toMatchSnapshot()
     expect(tools.log.success).toHaveBeenCalled()
     expect(tools.log.success.mock.calls).toMatchSnapshot()
+
+    // Verify that the outputs were set
+    expect(core.setOutput).toHaveBeenCalledTimes(2)
+    expect(core.setOutput).toHaveBeenCalledWith('url', 'www')
+    expect(core.setOutput).toHaveBeenCalledWith('number', 1)
   })
 
   it('creates a new issue from a different template', async () => {
