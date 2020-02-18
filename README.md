@@ -31,6 +31,8 @@ Someone just pushed, oh no! Here's who did it: {{ payload.sender.login }}
 
 You'll notice that the above example has some `{{ mustache }}` variables. Your issue templates have access to everything about the event that triggered the action. [Here is a list of all of the available template variables](https://github.com/JasonEtco/actions-toolkit#toolscontext).
 
+Note that you can only assign people matching given [conditions](https://help.github.com/en/github/managing-your-work-on-github/assigning-issues-and-pull-requests-to-other-github-users).
+
 ### Dates
 
 Additionally, you can use the `date` filter and variable to show some information about when this issue was created:
