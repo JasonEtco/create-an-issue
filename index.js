@@ -43,7 +43,7 @@ Toolkit.run(async tools => {
       ...templated,
       assignees: assignees ? listToArray(assignees) : listToArray(attributes.assignees),
       labels: listToArray(attributes.labels),
-      milestone: attributes.milestone
+      milestone: core.getInput('milestone') || attributes.milestone
     })
 
     core.setOutput('number', issue.data.number)

@@ -101,6 +101,14 @@ describe('create-an-issue', () => {
     expect(tools.log.success.mock.calls).toMatchSnapshot()
   })
 
+  it('creates a new issue with a milestone passed by input', async () => {
+    process.env.INPUT_MILESTONE = '1'
+    await actionFn(tools)
+    expect(params).toMatchSnapshot()
+    expect(params.milestone).toBe(1)
+    expect(tools.log.success).toHaveBeenCalled()
+  })
+
   it('logs a helpful error if creating an issue throws an error', async () => {
     nock.cleanAll()
     nock('https://api.github.com')
