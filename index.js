@@ -36,8 +36,6 @@ Toolkit.run(async tools => {
   tools.log.debug('Templates compiled', templated)
   tools.log.info(`Creating new issue ${templated.title}`)
 
-  const milestone = core.getInput('milestone') || attributes.milestone
-
   // Create the new issue
   try {
     const issue = await tools.github.issues.create({
@@ -45,7 +43,7 @@ Toolkit.run(async tools => {
       ...templated,
       assignees: assignees ? listToArray(assignees) : listToArray(attributes.assignees),
       labels: listToArray(attributes.labels),
-      milestone
+      milestone: core.getInput('milestone') || attributes.milestone
     })
 
     core.setOutput('number', issue.data.number)
