@@ -13,7 +13,7 @@ name: Create an issue on push
 jobs:
   stuff:
     steps:
-      - uses: JasonEtco/create-an-issue@master
+      - uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -52,8 +52,8 @@ Don't want to use `.github/ISSUE_TEMPLATE.md`? You can pass an input pointing th
 
 ```yaml
 steps:
-  - uses: actions/checkout@master
-  - uses: JasonEtco/create-an-issue@master
+  - uses: actions/checkout@v2
+  - uses: JasonEtco/create-an-issue@v2
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     with:
@@ -66,8 +66,8 @@ Want to use Action logic to determine who to assign the issue to? You can pass a
 
 ```yaml
 steps:
-  - uses: actions/checkout@master
-  - uses: JasonEtco/create-an-issue@master
+  - uses: actions/checkout@v2
+  - uses: JasonEtco/create-an-issue@v2
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     with:
@@ -81,7 +81,7 @@ If you need the number or URL of the issue that was created for another Action, 
 
 ```yaml
 steps:
-  - uses: JasonEtco/create-an-issue@master
+  - uses: JasonEtco/create-an-issue@v2
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     id: create-issue
