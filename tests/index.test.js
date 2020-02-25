@@ -33,6 +33,10 @@ describe('create-an-issue', () => {
     jest.spyOn(core, 'setOutput')
       .mockImplementation(() => {})
 
+    // Turn core.setFailed into a mocked noop
+    jest.spyOn(core, 'setFailed')
+      .mockImplementation(() => {})
+
     tools.exit.success = jest.fn()
     tools.exit.failure = jest.fn()
 
