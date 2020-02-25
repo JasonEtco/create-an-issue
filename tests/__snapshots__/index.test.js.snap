@@ -156,7 +156,7 @@ Array [
     "An error occurred while creating the issue. This might be caused by a malformed issue title, or a typo in the labels or assignees. Check .github/ISSUE_TEMPLATE.md!",
   ],
   Array [
-    [HttpError: Validation error],
+    [HttpError: Validation error: {"foo":true}],
   ],
   Array [
     Array [
