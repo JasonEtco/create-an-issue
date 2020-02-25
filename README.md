@@ -60,9 +60,9 @@ steps:
       filename: .github/some-other-template.md
 ```
 
-### Assignee input
+### Inputs
 
-Want to use Action logic to determine who to assign the issue to? You can pass an input containing the assignee list:
+Want to use Action logic to determine who to assign the issue to? You can pass an input containing the following options:
 
 ```yaml
 steps:
@@ -72,6 +72,7 @@ steps:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     with:
       assignees: JasonEtco, octocat
+      milestone: 1
 ```
 
 ### Outputs
