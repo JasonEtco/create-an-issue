@@ -46,7 +46,7 @@ Toolkit.run(async tools => {
       milestone: tools.inputs.milestone || attributes.milestone
     })
 
-    core.setOutput('number', issue.data.number)
+    core.setOutput('number', String(issue.data.number))
     core.setOutput('url', issue.data.html_url)
     tools.log.success(`Created issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
   } catch (err) {
