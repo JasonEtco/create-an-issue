@@ -54,7 +54,7 @@ describe('create-an-issue', () => {
     // Verify that the outputs were set
     expect(core.setOutput).toHaveBeenCalledTimes(2)
     expect(core.setOutput).toHaveBeenCalledWith('url', 'www')
-    expect(core.setOutput).toHaveBeenCalledWith('number', 1)
+    expect(core.setOutput).toHaveBeenCalledWith('number', '1')
   })
 
   it('creates a new issue from a different template', async () => {
