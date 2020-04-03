@@ -31,4 +31,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.PAT }}
         test: 'a simple test message'
       with: 
-        filename: '.github/variables.md'
+        filename: 'tests/fixtures/.github/variables.md'
