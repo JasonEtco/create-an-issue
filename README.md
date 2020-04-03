@@ -31,7 +31,7 @@ And here is an environment variable `env_test`: {{env.env_test}}
 ```
 
 You'll notice that the above example has some `{{ mustache }}` variables. Your issue templates have access to everything about the event that triggered the action. [Here is a list of all of the available template variables](https://github.com/JasonEtco/actions-toolkit#toolscontext).
-Besides, an environment variables `var` is accessible via the `env.var` syntax.
+Besides, an environment variable `var` is accessible via the `env.var` syntax.
 
 Note that you can only assign people matching given [conditions](https://help.github.com/en/github/managing-your-work-on-github/assigning-issues-and-pull-requests-to-other-github-users).
 
