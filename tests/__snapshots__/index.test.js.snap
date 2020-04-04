@@ -42,7 +42,7 @@ Object {
   ],
   "body": "Goodbye!",
   "labels": Array [],
-  "milestone": 1,
+  "milestone": "1",
   "title": "Hello!",
 }
 `;

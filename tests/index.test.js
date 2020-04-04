@@ -113,7 +113,7 @@ describe('create-an-issue', () => {
     process.env.INPUT_MILESTONE = '1'
     await actionFn(tools)
     expect(params).toMatchSnapshot()
-    expect(params.milestone).toBe(1)
+    expect(params.milestone).toBe('1')
     expect(tools.log.success).toHaveBeenCalled()
   })
 
