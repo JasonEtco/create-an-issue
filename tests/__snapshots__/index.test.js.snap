@@ -132,6 +132,18 @@ Array [
 `;
 
 exports[`create-an-issue creates a new issue with some template variables 1`] = `
+Object {
+  "assignees": Array [],
+  "body": "The action create-an-issue is the best action.
+
+Environment variable foo is great.
+",
+  "labels": Array [],
+  "title": "Hello create-an-issue",
+}
+`;
+
+exports[`create-an-issue creates a new issue with some template variables 2`] = `
 Array [
   Array [
     "Created issue Hello create-an-issue#1: www",

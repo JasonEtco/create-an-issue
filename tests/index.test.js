@@ -72,6 +72,7 @@ describe('create-an-issue', () => {
   it('creates a new issue with some template variables', async () => {
     process.env.INPUT_FILENAME = '.github/variables.md'
     await actionFn(tools)
+    expect(params).toMatchSnapshot()
     expect(tools.log.success).toHaveBeenCalled()
     expect(tools.log.success.mock.calls).toMatchSnapshot()
   })
