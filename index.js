@@ -17,6 +17,7 @@ Toolkit.run(async tools => {
 
   const templateVariables = {
     ...tools.context,
+    env: process.env,
     date: Date.now()
   }
 

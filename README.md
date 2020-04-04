@@ -26,10 +26,21 @@ title: Someone just pushed
 assignees: JasonEtco, matchai
 labels: bug, enhancement
 ---
-Someone just pushed, oh no! Here's who did it: {{ payload.sender.login }}
+Someone just pushed, oh no! Here's who did it: {{ payload.sender.login }}.
 ```
 
-You'll notice that the above example has some `{{ mustache }}` variables. Your issue templates have access to everything about the event that triggered the action. [Here is a list of all of the available template variables](https://github.com/JasonEtco/actions-toolkit#toolscontext).
+You'll notice that the above example has some `{{ mustache }}` variables. Your issue templates have access to everything about the event that triggered the action. [Here is a list of all of the available template variables](https://github.com/JasonEtco/actions-toolkit#toolscontext). You can also use environment variables:
+
+```yaml
+- uses: JasonEtco/create-an-issue@v2
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    ADJECTIVE: great
+```
+
+```markdown
+Environment variables are pretty {{ env.ADJECTIVE }}, right?
+```
 
 Note that you can only assign people matching given [conditions](https://help.github.com/en/github/managing-your-work-on-github/assigning-issues-and-pull-requests-to-other-github-users).
 
