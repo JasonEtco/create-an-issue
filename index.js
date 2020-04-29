@@ -31,7 +31,8 @@ Toolkit.run(async tools => {
 
   const templated = {
     body: env.renderString(body, templateVariables),
-    title: env.renderString(attributes.title, templateVariables)
+    title: env.renderString(attributes.title, templateVariables),
+    assignees: env.renderString(attributes.assignees, templateVariables)
   }
 
   tools.log.debug('Templates compiled', templated)
@@ -42,7 +43,7 @@ Toolkit.run(async tools => {
     const issue = await tools.github.issues.create({
       ...tools.context.repo,
       ...templated,
-      assignees: assignees ? listToArray(assignees) : listToArray(attributes.assignees),
+      assignees: assignees ? listToArray(assignees) : listToArray(templated.assignees),
       labels: listToArray(attributes.labels),
       milestone: tools.inputs.milestone || attributes.milestone
     })
