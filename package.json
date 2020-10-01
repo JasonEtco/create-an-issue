@@ -9,7 +9,7 @@
   "author": "Jason Etcovitch <jasonetco@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.3",
+    "@actions/core": "^1.2.6",
     "actions-toolkit": "^4.0.0",
     "front-matter": "^3.1.0",
     "js-yaml": "^3.13.1",
