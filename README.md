@@ -73,7 +73,7 @@ steps:
 
 ### Inputs
 
-Want to use Action logic to determine who to assign the issue to? You can pass an input containing the following options:
+Want to use Action logic to determine who to assign the issue to, to assign a milestone or to update an existing issue with the same title? You can pass an input containing the following options:
 
 ```yaml
 steps:
@@ -84,7 +84,10 @@ steps:
     with:
       assignees: JasonEtco, octocat
       milestone: 1
+      update_existing: 'true'
 ```
+
+The `assignees` and `milestone` speak for themselves, the `update_existing` param can be passed and set to true when you want an existing open issue with the **exact same title** when it exists.
 
 ### Outputs
 

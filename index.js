@@ -12,6 +12,7 @@ function listToArray (list) {
 Toolkit.run(async tools => {
   const template = tools.inputs.filename || '.github/ISSUE_TEMPLATE.md'
   const assignees = tools.inputs.assignees
+  const updateExisting = tools.inputs.update_existing === 'true'
   const env = nunjucks.configure({ autoescape: false })
   env.addFilter('date', dateFilter)
 
@@ -33,11 +34,62 @@ Toolkit.run(async tools => {
     body: env.renderString(body, templateVariables),
     title: env.renderString(attributes.title, templateVariables)
   }
-
   tools.log.debug('Templates compiled', templated)
-  tools.log.info(`Creating new issue ${templated.title}`)
+
+  if (updateExisting) {
+    let existingIssue
+    tools.log.info(`Fetching issues issues with title "${templated.title}"`)
+    try {
+      existingIssue = await tools.github.issues.listForRepo({
+        ...tools.context.repo,
+        state: 'open'
+      }).find(existingIssue => {
+        return existingIssue.title === attributes.title && existingIssue.state === 'open'
+      })
+    } catch (err) {
+      const errorMessage = 'An error occurred while retrieving existing issues.'
+      tools.log.error(errorMessage)
+      tools.log.error(err)
+
+      // The error might have more details
+      if (err.errors) tools.log.error(err.errors)
+
+      // Exit with a failing status
+      core.setFailed(errorMessage + '\n\n' + err.message)
+      tools.exit.failure()
+    }
+    if (existingIssue !== undefined) {
+      try {
+        const issue = await tools.github.issue.update({
+          issue_number: existingIssue.issue_number,
+          body: templated.body,
+          assignees: assignees ? listToArray(assignees) : listToArray(attributes.assignees),
+          labels: listToArray(attributes.labels),
+          milestone: tools.inputs.milestone || attributes.milestone
+        })
+
+        core.setOutput('number', String(issue.data.number))
+        core.setOutput('url', issue.data.html_url)
+        tools.log.success(`Updated issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
+      } catch (err) {
+        const errorMessage = 'An error occurred while updating an existing issue.'
+        tools.log.error(errorMessage)
+        tools.log.error(err)
+
+        // The error might have more details
+        if (err.errors) tools.log.error(err.errors)
+
+        // Exit with a failing status
+        core.setFailed(errorMessage + '\n\n' + err.message)
+        tools.exit.failure()
+      }
+      tools.exit.success('Updated existing issue')
+    }
+    tools.log.info('No existing issue found to update')
+  }
 
   // Create the new issue
+  tools.log.info(`Creating new issue ${templated.title}`)
   try {
     const issue = await tools.github.issues.create({
       ...tools.context.repo,
