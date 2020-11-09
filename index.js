@@ -38,7 +38,7 @@ Toolkit.run(async tools => {
 
   if (updateExisting) {
     let existingIssue
-    tools.log.info(`Fetching issues issues with title "${templated.title}"`)
+    tools.log.info(`Fetching issues with title "${templated.title}"`)
     try {
       const existingIssues = await tools.github.search.issuesAndPullRequests({
         q: `is:open is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${attributes.title}`,
@@ -70,6 +70,7 @@ Toolkit.run(async tools => {
         core.setOutput('url', issue.data.html_url)
         tools.log.success(`Updated issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
       } catch (err) {
+        if (err.errors) tools.log.error(err.errors)
         tools.exit.failure(err)
       }
       tools.exit.success('Updated existing issue')
