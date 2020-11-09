@@ -52,17 +52,11 @@ Toolkit.run(async tools => {
       try {
         tools.log.info({
           issue_number: existingIssue.number,
-          body: templated.body,
-          assignees: assignees ? listToArray(assignees) : listToArray(attributes.assignees),
-          labels: listToArray(attributes.labels),
-          milestone: tools.inputs.milestone || attributes.milestone
+          body: templated.body
         })
         const issue = await tools.github.issues.update({
           issue_number: existingIssue.number,
-          body: templated.body,
-          assignees: assignees ? listToArray(assignees) : listToArray(attributes.assignees),
-          labels: listToArray(attributes.labels),
-          milestone: tools.inputs.milestone || attributes.milestone
+          body: templated.body
         })
         tools.log.info(issue)
 
@@ -70,7 +64,6 @@ Toolkit.run(async tools => {
         core.setOutput('url', issue.data.html_url)
         tools.log.success(`Updated issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
       } catch (err) {
-        if (err.errors) tools.log.error(err.errors)
         tools.exit.failure(err)
       }
       tools.exit.success('Updated existing issue')
