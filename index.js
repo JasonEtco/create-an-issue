@@ -50,7 +50,13 @@ Toolkit.run(async tools => {
     }
     if (existingIssue !== undefined) {
       try {
-        tools.log.info(existingIssue)
+        tools.log.info({
+          issue_number: existingIssue.number,
+          body: templated.body,
+          assignees: assignees ? listToArray(assignees) : listToArray(attributes.assignees),
+          labels: listToArray(attributes.labels),
+          milestone: tools.inputs.milestone || attributes.milestone
+        })
         const issue = await tools.github.issues.update({
           issue_number: existingIssue.number,
           body: templated.body,
