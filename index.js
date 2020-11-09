@@ -47,16 +47,7 @@ Toolkit.run(async tools => {
         return existingIssue.title === attributes.title && existingIssue.state === 'open'
       })
     } catch (err) {
-      const errorMessage = 'An error occurred while retrieving existing issues.'
-      tools.log.error(errorMessage)
-      tools.log.error(err)
-
-      // The error might have more details
-      if (err.errors) tools.log.error(err.errors)
-
-      // Exit with a failing status
-      core.setFailed(errorMessage + '\n\n' + err.message)
-      tools.exit.failure()
+      tools.exit.failure(err)
     }
     if (existingIssue !== undefined) {
       try {
@@ -72,16 +63,7 @@ Toolkit.run(async tools => {
         core.setOutput('url', issue.data.html_url)
         tools.log.success(`Updated issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
       } catch (err) {
-        const errorMessage = 'An error occurred while updating an existing issue.'
-        tools.log.error(errorMessage)
-        tools.log.error(err)
-
-        // The error might have more details
-        if (err.errors) tools.log.error(err.errors)
-
-        // Exit with a failing status
-        core.setFailed(errorMessage + '\n\n' + err.message)
-        tools.exit.failure()
+        tools.exit.failure(err)
       }
       tools.exit.success('Updated existing issue')
     }
