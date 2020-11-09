@@ -57,7 +57,7 @@ Toolkit.run(async tools => {
         })
         core.setOutput('number', String(issue.data.number))
         core.setOutput('url', issue.data.html_url)
-        tools.log.success(`Updated issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
+        tools.exit.success(`Updated issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
       } catch (err) {
         tools.exit.failure(err)
       }
