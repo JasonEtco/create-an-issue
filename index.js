@@ -47,7 +47,7 @@ Toolkit.run(async tools => {
       tools.log.info(process.env.GITHUB_REPOSITORY)
       tools.log.info(attributes)
       tools.log.info(existingIssues)
-      existingIssue = existingIssues.items[0] // Get the first item with this title
+      existingIssue = existingIssues.data.items[0] // Get the first item with this title
     } catch (err) {
       tools.exit.failure(err)
     }
