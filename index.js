@@ -41,7 +41,7 @@ Toolkit.run(async tools => {
     tools.log.info(`Fetching issues issues with title "${templated.title}"`)
     try {
       const existingIssues = await tools.github.search.issuesAndPullRequests({
-        q: `is:open is:issue repo:${process.env.GITHUB_REPOSITORY} title:${attributes.title}`,
+        q: `is:open is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${attributes.title}`,
         order: 'created'
       })
       tools.log.info(process.env.GITHUB_REPOSITORY)
