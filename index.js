@@ -12,7 +12,7 @@ function listToArray (list) {
 Toolkit.run(async tools => {
   const template = tools.inputs.filename || '.github/ISSUE_TEMPLATE.md'
   const assignees = tools.inputs.assignees
-  const updateExisting = tools.inputs.update_existing === 'true'
+  const updateExisting = Boolean(tools.inputs.update_existing)
   const env = nunjucks.configure({ autoescape: false })
   env.addFilter('date', dateFilter)
 

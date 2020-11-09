@@ -19,7 +19,6 @@ inputs:
     required: false
   update_existing:
     description: Update an open existing issue with the same title if it exists
-    default: 'false'
     required: false
 outputs:
   number:
