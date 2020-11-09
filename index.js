@@ -43,6 +43,9 @@ Toolkit.run(async tools => {
       const existingIssues = await tools.github.search.issuesAndPullRequests({
         q: `is:open is:issue repo:${process.env.GITHUB_REPOSITORY} title:${attributes.title} sort:created`
       })
+      tools.log.info(process.env.GITHUB_REPOSITORY)
+      tools.log.info(attributes)
+      tools.log.info(existingIssues)
       existingIssue = existingIssues.items.shift() // Get the first item with this title
     } catch (err) {
       tools.exit.failure(err)
