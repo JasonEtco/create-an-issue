@@ -40,12 +40,10 @@ Toolkit.run(async tools => {
     let existingIssue
     tools.log.info(`Fetching issues issues with title "${templated.title}"`)
     try {
-      existingIssue = await tools.github.issues.listForRepo({
-        ...tools.context.repo,
-        state: 'open'
-      }).find(existingIssue => {
-        return existingIssue.title === attributes.title && existingIssue.state === 'open'
+      const existingIssues = await tools.github.search.issuesAndPullRequests({
+        q: `is:open is:issue repo:${process.env.GITHUB_REPOSITORY} title:${attributes.title} sort:created`
       })
+      existingIssue = existingIssues.items.shift() // Get the first item with this title
     } catch (err) {
       tools.exit.failure(err)
     }
