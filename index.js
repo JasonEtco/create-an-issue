@@ -50,25 +50,17 @@ Toolkit.run(async tools => {
     }
     if (existingIssue !== undefined) {
       try {
-        tools.log.info({
-          ...tools.context.repo,
-          issue_number: existingIssue.number,
-          body: templated.body
-        })
         const issue = await tools.github.issues.update({
           ...tools.context.repo,
           issue_number: existingIssue.number,
           body: templated.body
         })
-        tools.log.info(issue)
-
         core.setOutput('number', String(issue.data.number))
         core.setOutput('url', issue.data.html_url)
         tools.log.success(`Updated issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
       } catch (err) {
         tools.exit.failure(err)
       }
-      tools.exit.success('Updated existing issue')
     }
     tools.log.info('No existing issue found to update')
   }
