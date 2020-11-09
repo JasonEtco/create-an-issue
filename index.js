@@ -51,10 +51,12 @@ Toolkit.run(async tools => {
     if (existingIssue !== undefined) {
       try {
         tools.log.info({
+          ...tools.context.repo,
           issue_number: existingIssue.number,
           body: templated.body
         })
         const issue = await tools.github.issues.update({
+          ...tools.context.repo,
           issue_number: existingIssue.number,
           body: templated.body
         })
