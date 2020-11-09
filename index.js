@@ -44,7 +44,10 @@ Toolkit.run(async tools => {
         q: `is:open is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${attributes.title}`,
         order: 'created'
       })
-      existingIssue = existingIssues.items[0]
+      existingIssue = existingIssues.items[0] // Get the first item with this title
+      tools.log.info(process.env.GITHUB_REPOSITORY)
+      tools.log.info(attributes)
+      tools.log.info(existingIssues)
     } catch (err) {
       tools.exit.failure(err)
     }
