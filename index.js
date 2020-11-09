@@ -44,9 +44,6 @@ Toolkit.run(async tools => {
         q: `is:open is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${attributes.title}`,
         order: 'created'
       })
-      tools.log.info(process.env.GITHUB_REPOSITORY)
-      tools.log.info(attributes)
-      tools.log.info(existingIssues)
       existingIssue = existingIssues.data.items[0] // Get the first item with this title
     } catch (err) {
       tools.exit.failure(err)
@@ -60,6 +57,7 @@ Toolkit.run(async tools => {
           labels: listToArray(attributes.labels),
           milestone: tools.inputs.milestone || attributes.milestone
         })
+        console.log(issue)
 
         core.setOutput('number', String(issue.data.number))
         core.setOutput('url', issue.data.html_url)
