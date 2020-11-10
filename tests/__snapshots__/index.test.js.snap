@@ -1,5 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`create-an-issue Creates a new issue when updating existing issues is enabled but no issues with the same title exist 1`] = `
+Object {
+  "assignees": Array [
+    "octocat",
+    "JasonEtco",
+  ],
+  "body": "Goodbye!",
+  "labels": Array [],
+  "milestone": "1",
+  "title": "Hello!",
+}
+`;
+
+exports[`create-an-issue Updates an existing issue with the same title 1`] = `
+Object {
+  "assignees": Array [
+    "octocat",
+    "JasonEtco",
+  ],
+  "body": "Goodbye!",
+  "labels": Array [],
+  "milestone": "1",
+  "title": "Hello!",
+}
+`;
+
 exports[`create-an-issue creates a new issue 1`] = `
 Object {
   "assignees": Array [],

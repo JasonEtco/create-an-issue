@@ -117,6 +117,57 @@ describe('create-an-issue', () => {
     expect(tools.log.success).toHaveBeenCalled()
   })
 
+  it('Creates a new issue when updating existing issues is enabled but no issues with the same title exist', async () => {
+    nock.cleanAll()
+    nock('https://api.github.com')
+      .get(/\/search\/issues.*/).reply(200, {
+        items: []
+      })
+      .post(/\/repos\/.*\/.*\/issues/).reply(200, (_, body) => {
+        params = body
+        return {
+          title: body.title,
+          number: 1,
+          html_url: 'www'
+        }
+      })
+
+    process.env.INPUT_UPDATE_EXISTING = 'true'
+
+    await actionFn(tools)
+    expect(params).toMatchSnapshot()
+    expect(tools.log.info).toHaveBeenCalledWith('No existing issue found to update')
+    expect(tools.log.success).toHaveBeenCalled()
+  })
+
+  it('Updates an existing issue with the same title', async () => {
+    nock.cleanAll()
+    nock('https://api.github.com')
+      .get(/\/search\/issues.*/).reply(200, {
+        items: [{ number: 1 }]
+      })
+      .patch(/\/repos\/.*\/.*\/issues\/.*/).reply(200, {})
+    process.env.INPUT_UPDATE_EXISTING = 'true'
+
+    await actionFn(tools)
+    expect(params).toMatchSnapshot()
+    expect(tools.exit.success).toHaveBeenCalled()
+  })
+
+  it('Exits when updating an issue fails', async () => {
+    nock.cleanAll()
+    nock('https://api.github.com')
+      .get(/\/search\/issues.*/).reply(200, {
+        items: [{ number: 1 }]
+      })
+      .patch(/\/repos\/.*\/.*\/issues\/.*/).reply(500, {
+        message: 'Updating issue failed'
+      })
+
+    await actionFn(tools)
+    expect(tools.exit.failure).toHaveBeenCalled()
+  })
+
   it('logs a helpful error if creating an issue throws an error', async () => {
     nock.cleanAll()
     nock('https://api.github.com')
