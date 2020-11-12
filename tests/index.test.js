@@ -144,7 +144,7 @@ describe('create-an-issue', () => {
     nock.cleanAll()
     nock('https://api.github.com')
       .get(/\/search\/issues.*/).reply(200, {
-        items: [{ number: 1 }]
+        items: [{ number: 1, title: 'Hello!' }]
       })
       .patch(/\/repos\/.*\/.*\/issues\/.*/).reply(200, {})
     process.env.INPUT_UPDATE_EXISTING = 'true'
@@ -158,7 +158,7 @@ describe('create-an-issue', () => {
     nock.cleanAll()
     nock('https://api.github.com')
       .get(/\/search\/issues.*/).reply(200, {
-        items: [{ number: 1 }]
+        items: [{ number: 1, title: 'Hello!' }]
       })
       .patch(/\/repos\/.*\/.*\/issues\/.*/).reply(500, {
         message: 'Updating issue failed'
