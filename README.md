@@ -87,7 +87,7 @@ steps:
       update_existing: true
 ```
 
-The `assignees` and `milestone` speak for themselves, the `update_existing` param can be passed and set to true when you want an existing open issue with the **exact same title** when it exists.
+The `assignees` and `milestone` speak for themselves, the `update_existing` param can be passed and set to `true` when you want an existing open issue with the **exact same title** when it exists.
 
 ### Outputs
 

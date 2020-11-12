@@ -117,7 +117,7 @@ describe('create-an-issue', () => {
     expect(tools.log.success).toHaveBeenCalled()
   })
 
-  it('Creates a new issue when updating existing issues is enabled but no issues with the same title exist', async () => {
+  it('creates a new issue when updating existing issues is enabled but no issues with the same title exist', async () => {
     nock.cleanAll()
     nock('https://api.github.com')
       .get(/\/search\/issues.*/).reply(200, {
@@ -140,7 +140,7 @@ describe('create-an-issue', () => {
     expect(tools.log.success).toHaveBeenCalled()
   })
 
-  it('Updates an existing issue with the same title', async () => {
+  it('updates an existing issue with the same title', async () => {
     nock.cleanAll()
     nock('https://api.github.com')
       .get(/\/search\/issues.*/).reply(200, {
@@ -154,7 +154,7 @@ describe('create-an-issue', () => {
     expect(tools.exit.success).toHaveBeenCalled()
   })
 
-  it('Exits when updating an issue fails', async () => {
+  it('exits when updating an issue fails', async () => {
     nock.cleanAll()
     nock('https://api.github.com')
       .get(/\/search\/issues.*/).reply(200, {

@@ -41,14 +41,14 @@ Toolkit.run(async tools => {
     tools.log.info(`Fetching issues with title "${templated.title}"`)
     try {
       const existingIssues = await tools.github.search.issuesAndPullRequests({
-        q: `is:open is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${attributes.title}`,
+        q: `is:open is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`,
         order: 'created'
       })
-      existingIssue = existingIssues.data.items[0] // Get the first item with this title
+      existingIssue = existingIssues.data.items.find(issue => issue.title === templated.title)
     } catch (err) {
       tools.exit.failure(err)
     }
-    if (existingIssue !== undefined) {
+    if (existingIssue) {
       try {
         const issue = await tools.github.issues.update({
           ...tools.context.repo,
