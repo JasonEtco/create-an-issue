@@ -12,6 +12,7 @@ function listToArray (list) {
 Toolkit.run(async tools => {
   const template = tools.inputs.filename || '.github/ISSUE_TEMPLATE.md'
   const assignees = tools.inputs.assignees
+  const updateExisting = Boolean(tools.inputs.update_existing)
   const env = nunjucks.configure({ autoescape: false })
   env.addFilter('date', dateFilter)
 
@@ -33,11 +34,39 @@ Toolkit.run(async tools => {
     body: env.renderString(body, templateVariables),
     title: env.renderString(attributes.title, templateVariables)
   }
-
   tools.log.debug('Templates compiled', templated)
-  tools.log.info(`Creating new issue ${templated.title}`)
+
+  if (updateExisting) {
+    let existingIssue
+    tools.log.info(`Fetching issues with title "${templated.title}"`)
+    try {
+      const existingIssues = await tools.github.search.issuesAndPullRequests({
+        q: `is:open is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`,
+        order: 'created'
+      })
+      existingIssue = existingIssues.data.items.find(issue => issue.title === templated.title)
+    } catch (err) {
+      tools.exit.failure(err)
+    }
+    if (existingIssue) {
+      try {
+        const issue = await tools.github.issues.update({
+          ...tools.context.repo,
+          issue_number: existingIssue.number,
+          body: templated.body
+        })
+        core.setOutput('number', String(issue.data.number))
+        core.setOutput('url', issue.data.html_url)
+        tools.exit.success(`Updated issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
+      } catch (err) {
+        tools.exit.failure(err)
+      }
+    }
+    tools.log.info('No existing issue found to update')
+  }
 
   // Create the new issue
+  tools.log.info(`Creating new issue ${templated.title}`)
   try {
     const issue = await tools.github.issues.create({
       ...tools.context.repo,

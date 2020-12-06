@@ -9,12 +9,17 @@ branding:
 inputs:
   assignees:
     description: GitHub handle of the user(s) to assign the issue (comma-separated)
+    required: false
   milestone:
     description: Number of the milestone to assign the issue to
     required: false
   filename:
     description: The name of the file to use as the issue template
     default: .github/ISSUE_TEMPLATE.md
+    required: false
+  update_existing:
+    description: Update an open existing issue with the same title if it exists
+    required: false
 outputs:
   number:
     description: Number of the issue that was created
