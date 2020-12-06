@@ -34,8 +34,25 @@
     ]
   },
   "jest": {
+    "testEnvironment": "node",
     "setupFiles": [
-      "<rootDir>/tests/setup.js"
-    ]
+      "<rootDir>/tests/setup.ts"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json"
+    ],
+    "transform": {
+      ".+\\.tsx?$": "ts-jest"
+    },
+    "testMatch": [
+      "<rootDir>/tests/**/*.test.(ts|js)"
+    ],
+    "globals": {
+      "ts-jest": {
+        "babelConfig": false
+      }
+    }
   }
 }
