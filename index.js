@@ -4,6 +4,11 @@ const fm = require('front-matter')
 const nunjucks = require('nunjucks')
 const dateFilter = require('nunjucks-date-filter')
 
+function setOutputs (tools, issue) {
+  tools.outputs.number = String(issue.data.number)
+  tools.outputs.url = issue.data.html_url
+}
+
 function listToArray (list) {
   if (!list) return []
   return Array.isArray(list) ? list : list.split(', ')
@@ -24,7 +29,7 @@ Toolkit.run(async tools => {
 
   // Get the file
   tools.log.debug('Reading from file', template)
-  const file = tools.getFile(template)
+  const file = await tools.readFile(template)
 
   // Grab the front matter as JSON
   const { attributes, body } = fm(file)
@@ -55,8 +60,7 @@ Toolkit.run(async tools => {
           issue_number: existingIssue.number,
           body: templated.body
         })
-        core.setOutput('number', String(issue.data.number))
-        core.setOutput('url', issue.data.html_url)
+        setOutputs(tools, issue)
         tools.exit.success(`Updated issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
       } catch (err) {
         tools.exit.failure(err)
@@ -76,8 +80,7 @@ Toolkit.run(async tools => {
       milestone: tools.inputs.milestone || attributes.milestone
     })
 
-    core.setOutput('number', String(issue.data.number))
-    core.setOutput('url', issue.data.html_url)
+    setOutputs(tools, issue)
     tools.log.success(`Created issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
   } catch (err) {
     // Log the error message
