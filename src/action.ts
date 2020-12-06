@@ -1,20 +1,12 @@
-const core = require('@actions/core')
-const { Toolkit } = require('actions-toolkit')
-const fm = require('front-matter')
-const nunjucks = require('nunjucks')
-const dateFilter = require('nunjucks-date-filter')
+import * as core from '@actions/core'
+import { Toolkit } from 'actions-toolkit'
+import fm from 'front-matter'
+import nunjucks from 'nunjucks'
+// @ts-ignore
+import dateFilter from 'nunjucks-date-filter'
+import { FrontMatterAttributes, listToArray, setOutputs } from './helpers'
 
-function setOutputs (tools, issue) {
-  tools.outputs.number = String(issue.data.number)
-  tools.outputs.url = issue.data.html_url
-}
-
-function listToArray (list) {
-  if (!list) return []
-  return Array.isArray(list) ? list : list.split(', ')
-}
-
-Toolkit.run(async tools => {
+export async function createAnIssue (tools: Toolkit) {
   const template = tools.inputs.filename || '.github/ISSUE_TEMPLATE.md'
   const assignees = tools.inputs.assignees
   const updateExisting = Boolean(tools.inputs.update_existing)
@@ -29,10 +21,10 @@ Toolkit.run(async tools => {
 
   // Get the file
   tools.log.debug('Reading from file', template)
-  const file = await tools.readFile(template)
+  const file = await tools.readFile(template) as string
 
   // Grab the front matter as JSON
-  const { attributes, body } = fm(file)
+  const { attributes, body } = fm<FrontMatterAttributes>(file)
   tools.log(`Front matter for ${template} is`, attributes)
 
   const templated = {
@@ -46,8 +38,7 @@ Toolkit.run(async tools => {
     tools.log.info(`Fetching issues with title "${templated.title}"`)
     try {
       const existingIssues = await tools.github.search.issuesAndPullRequests({
-        q: `is:open is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`,
-        order: 'created'
+        q: `is:open is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`
       })
       existingIssue = existingIssues.data.items.find(issue => issue.title === templated.title)
     } catch (err) {
@@ -77,7 +68,7 @@ Toolkit.run(async tools => {
       ...templated,
       assignees: assignees ? listToArray(assignees) : listToArray(attributes.assignees),
       labels: listToArray(attributes.labels),
-      milestone: tools.inputs.milestone || attributes.milestone
+      milestone: Number(tools.inputs.milestone || attributes.milestone) || undefined
     })
 
     setOutputs(tools, issue)
@@ -95,6 +86,4 @@ Toolkit.run(async tools => {
     core.setFailed(errorMessage + '\n\n' + err.message)
     tools.exit.failure()
   }
-}, {
-  secrets: ['GITHUB_TOKEN']
-})
+}
