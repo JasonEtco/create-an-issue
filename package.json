@@ -1,13 +1,12 @@
 {
   "name": "create-an-issue",
   "private": true,
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "npx ncc run ./src/index.ts",
     "test": "jest --coverage && standard",
     "build": "npx ncc build ./src/index.ts"
   },
-  "keywords": [],
   "author": "Jason Etcovitch <jasonetco@gmail.com>",
   "license": "MIT",
   "dependencies": {
