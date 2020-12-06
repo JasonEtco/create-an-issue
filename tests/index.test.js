@@ -7,7 +7,7 @@ describe('create-an-issue', () => {
 
   beforeEach(() => {
     Toolkit.run = jest.fn(fn => { actionFn = fn })
-    require('..')
+    require('../src')
 
     nock('https://api.github.com')
       .post(/\/repos\/.*\/.*\/issues/).reply(200, (_, body) => {
