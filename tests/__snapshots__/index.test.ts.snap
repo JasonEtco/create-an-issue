@@ -123,6 +123,7 @@ Object {
   "body": "The action create-an-issue is the best action.",
   "labels": Array [
     "bugs",
+    "foo",
   ],
   "milestone": 2,
   "title": "DO EVERYTHING",
