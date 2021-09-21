@@ -9,7 +9,7 @@ import { FrontMatterAttributes, listToArray, setOutputs } from './helpers'
 export async function createAnIssue (tools: Toolkit) {
   const template = tools.inputs.filename || '.github/ISSUE_TEMPLATE.md'
   const assignees = tools.inputs.assignees
-  const updateExisting = Boolean(tools.inputs.update_existing)
+  const updateExisting: Boolean | null = tools.inputs.update_existing ? tools.inputs.update_existing === 'true' : null
   const env = nunjucks.configure({ autoescape: false })
   env.addFilter('date', dateFilter)
 
@@ -34,7 +34,7 @@ export async function createAnIssue (tools: Toolkit) {
   }
   tools.log.debug('Templates compiled', templated)
 
-  if (updateExisting) {
+  if (updateExisting !== null) {
     let existingIssue
     tools.log.info(`Fetching issues with title "${templated.title}"`)
     try {
@@ -46,19 +46,25 @@ export async function createAnIssue (tools: Toolkit) {
       tools.exit.failure(err)
     }
     if (existingIssue) {
-      try {
-        const issue = await tools.github.issues.update({
-          ...tools.context.repo,
-          issue_number: existingIssue.number,
-          body: templated.body
-        })
-        setOutputs(tools, issue)
-        tools.exit.success(`Updated issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
-      } catch (err) {
-        tools.exit.failure(err)
+      if (! updateExisting) {
+        tools.exit.success(`Existing issue ${existingIssue.title}#${existingIssue.number}: ${existingIssue.html_url} found but not updated`)
+      } else {
+        try {
+          tools.log.info(`Updating existing issue ${existingIssue.title}#${existingIssue.number}: ${existingIssue.html_url}`)
+          const issue = await tools.github.issues.update({
+            ...tools.context.repo,
+            issue_number: existingIssue.number,
+            body: templated.body
+          })
+          setOutputs(tools, issue)
+          tools.exit.success(`Updated issue ${existingIssue.title}#${issue.data.number}: ${issue.data.html_url}`)
+        } catch (err) {
+          tools.exit.failure(err)
+        }
       }
+    } else {
+      tools.log.info('No existing issue found to update')
     }
-    tools.log.info('No existing issue found to update')
   }
 
   // Create the new issue

@@ -184,6 +184,19 @@ Array [
 ]
 `;
 
+exports[`create-an-issue finds, but does not update an existing issue with the same title 1`] = `
+Object {
+  "assignees": Array [
+    "octocat",
+    "JasonEtco",
+  ],
+  "body": "Goodbye!",
+  "labels": Array [],
+  "milestone": 1,
+  "title": "Hello!",
+}
+`;
+
 exports[`create-an-issue logs a helpful error if creating an issue throws an error 1`] = `
 Array [
   Array [
