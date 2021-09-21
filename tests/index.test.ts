@@ -151,6 +151,14 @@ describe('create-an-issue', () => {
     expect(tools.log.success).toHaveBeenCalled()
   })
 
+  it('checks the value of update_existing', async () => {
+    process.env.INPUT_UPDATE_EXISTING = 'invalid'
+
+    await createAnIssue(tools)
+    expect(params).toMatchSnapshot()
+    expect(tools.exit.failure).toHaveBeenCalledWith('Invalid value update_existing=invalid, must be one of true or false')
+  })
+
   it('updates an existing issue with the same title', async () => {
     nock.cleanAll()
     nock('https://api.github.com')

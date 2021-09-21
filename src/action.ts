@@ -9,7 +9,16 @@ import { FrontMatterAttributes, listToArray, setOutputs } from './helpers'
 export async function createAnIssue (tools: Toolkit) {
   const template = tools.inputs.filename || '.github/ISSUE_TEMPLATE.md'
   const assignees = tools.inputs.assignees
-  const updateExisting: Boolean | null = tools.inputs.update_existing ? tools.inputs.update_existing === 'true' : null
+  let updateExisting: Boolean | null = null
+  if (tools.inputs.update_existing) {
+    if (tools.inputs.update_existing === 'true') {
+      updateExisting = true
+    } else if (tools.inputs.update_existing === 'false') {
+      updateExisting = false
+    } else {
+      tools.exit.failure(`Invalid value update_existing=${tools.inputs.update_existing}, must be one of true or false`)
+    }
+  }
   const env = nunjucks.configure({ autoescape: false })
   env.addFilter('date', dateFilter)
 
@@ -46,7 +55,7 @@ export async function createAnIssue (tools: Toolkit) {
       tools.exit.failure(err)
     }
     if (existingIssue) {
-      if (! updateExisting) {
+      if (updateExisting === false) {
         tools.exit.success(`Existing issue ${existingIssue.title}#${existingIssue.number}: ${existingIssue.html_url} found but not updated`)
       } else {
         try {
