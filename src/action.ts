@@ -10,6 +10,7 @@ export async function createAnIssue (tools: Toolkit) {
   const template = tools.inputs.filename || '.github/ISSUE_TEMPLATE.md'
   const assignees = tools.inputs.assignees
   const updateExisting = Boolean(tools.inputs.update_existing)
+  const searchExistingTypes = (tools.inputs.search_existing || 'open').split(',').map(s => s.trim());
   const env = nunjucks.configure({ autoescape: false })
   env.addFilter('date', dateFilter)
 
@@ -38,10 +39,18 @@ export async function createAnIssue (tools: Toolkit) {
     let existingIssue
     tools.log.info(`Fetching issues with title "${templated.title}"`)
     try {
-      const existingIssues = await tools.github.search.issuesAndPullRequests({
-        q: `is:open is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`
-      })
-      existingIssue = existingIssues.data.items.find(issue => issue.title === templated.title)
+
+      // Fetch existing issues that match title
+      const issues = (await Promise.all(searchExistingTypes.map(s => {
+        return tools.github.search.issuesAndPullRequests({
+          q: `is:${s} is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`
+        }).then(existingIssues => {
+          return existingIssues.data.items
+        })})
+      )).flat()
+
+      existingIssue = issues.find(issue => issue.title === templated.title)
+
     } catch (err) {
       tools.exit.failure(err)
     }

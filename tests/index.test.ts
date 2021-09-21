@@ -151,19 +151,72 @@ describe('create-an-issue', () => {
     expect(tools.log.success).toHaveBeenCalled()
   })
 
-  it('updates an existing issue with the same title', async () => {
+  it('updates an existing open issue with the same title', async () => {
     nock.cleanAll()
     nock('https://api.github.com')
-      .get(/\/search\/issues.*/).reply(200, {
+      .get(/\/search\/issues.*/)
+      .query(parsedQuery => {
+        var q = parsedQuery['q']
+        if (typeof(q) === 'string') {
+          var args = q.split(' ')
+          return (args.includes('is:open') || args.includes('is:closed')) 
+            && args.includes('is:issue')
+        } else {
+          return false
+        }
+      })
+      .reply(200, {
         items: [{ number: 1, title: 'Hello!' }]
       })
       .patch(/\/repos\/.*\/.*\/issues\/.*/).reply(200, {})
+
     process.env.INPUT_UPDATE_EXISTING = 'true'
 
     await createAnIssue(tools)
     expect(params).toMatchSnapshot()
     expect(tools.exit.success).toHaveBeenCalled()
   })
+
+  it('updates an existing closed issue with the same title', async () => {
+    nock.cleanAll()
+    nock('https://api.github.com')
+      // no matching open issues
+      .get(/\/search\/issues.*/)
+      .query(parsedQuery => {
+        var q = parsedQuery['q']
+        if (typeof(q) === 'string') {
+          var args = q.split(' ')
+          return args.includes('is:open') && args.includes('is:issue')
+        } else {
+          return false
+        }
+      })
+      .reply(200, {
+        items: []
+      })
+      // matching closed issue
+      .get(/\/search\/issues.*/)
+      .query(parsedQuery => {
+        var q = parsedQuery['q']
+        if (typeof(q) === 'string') {
+          var args = q.split(' ')
+          return args.includes('is:closed') && args.includes('is:issue')
+        } else {
+          return false
+        }
+      })
+      .reply(200, {
+        items: [{ number: 1, title: 'Hello!' }]
+      })
+      .patch(/\/repos\/.*\/.*\/issues\/.*/).reply(200, {})
+
+    process.env.INPUT_UPDATE_EXISTING = 'true'
+    process.env.INPUT_SEARCH_EXISTING = 'open, closed'
+
+    await createAnIssue(tools)
+    expect(params).toMatchSnapshot()
+    expect(tools.exit.success).toHaveBeenCalled()
+  })  
 
   it('exits when updating an issue fails', async () => {
     nock.cleanAll()
