@@ -80,6 +80,14 @@ describe('create-an-issue', () => {
     expect((tools.log.success as any).mock.calls).toMatchSnapshot()
   })
 
+  it('creates a new issue with the context.repo template variables', async () => {
+    process.env.INPUT_FILENAME = '.github/context-repo-template.md'
+    await createAnIssue(tools)
+    expect(params).toMatchSnapshot()
+    expect(tools.log.success).toHaveBeenCalled()
+    expect((tools.log.success as any).mock.calls).toMatchSnapshot()
+  })
+
   it('creates a new issue with assignees, labels and a milestone', async () => {
     process.env.INPUT_FILENAME = '.github/kitchen-sink.md'
     await createAnIssue(tools)
