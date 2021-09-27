@@ -31,7 +31,7 @@ labels: bug, enhancement
 Someone just pushed, oh no! Here's who did it: {{ payload.sender.login }}.
 ```
 
-You'll notice that the above example has some `{{ mustache }}` variables. Your issue templates have access to everything about the event that triggered the action. [Here is a list of all of the available template variables](https://github.com/JasonEtco/actions-toolkit#toolscontext). You can also use environment variables:
+You'll notice that the above example has some `{{ mustache }}` variables. Your issue templates have access to several things about the event that triggered the action. Besides `issue` and `pullRequest`, you have access to all the template variables [on this list](https://github.com/JasonEtco/actions-toolkit#toolscontext). You can also use environment variables:
 
 ```yaml
 - uses: JasonEtco/create-an-issue@v2

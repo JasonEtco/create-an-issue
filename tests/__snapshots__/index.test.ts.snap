@@ -164,6 +164,26 @@ Array [
 ]
 `;
 
+exports[`create-an-issue creates a new issue with the context.repo template variables 1`] = `
+Object {
+  "assignees": Array [],
+  "body": "Are you looking for results on our gh-pages branch?
+
+Just click this link! https://JasonEtco.github.io/waddup/path/to/my/pageindex.html
+",
+  "labels": Array [],
+  "title": "This Issue has a generalizable GitHub Pages Link",
+}
+`;
+
+exports[`create-an-issue creates a new issue with the context.repo template variables 2`] = `
+Array [
+  Array [
+    "Created issue This Issue has a generalizable GitHub Pages Link#1: www",
+  ],
+]
+`;
+
 exports[`create-an-issue logs a helpful error if creating an issue throws an error 1`] = `
 Array [
   Array [
