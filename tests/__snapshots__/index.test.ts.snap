@@ -239,6 +239,24 @@ Array [
 ]
 `;
 
+exports[`create-an-issue logs a helpful error if updating an issue throws an error with more errors 1`] = `
+Array [
+  Array [
+    "An error occurred while updating the issue. This might be caused by a malformed issue title, or a typo in the labels or assignees. Check .github/ISSUE_TEMPLATE.md!",
+  ],
+  Array [
+    [HttpError: Validation error: {"foo":true}],
+  ],
+  Array [
+    Array [
+      Object {
+        "foo": true,
+      },
+    ],
+  ],
+]
+`;
+
 exports[`create-an-issue updates an existing open issue with the same title 1`] = `
 Object {
   "assignees": Array [
