@@ -6,6 +6,20 @@ import nunjucks from 'nunjucks'
 import dateFilter from 'nunjucks-date-filter'
 import { FrontMatterAttributes, listToArray, setOutputs } from './helpers'
 
+function logError(tools: Toolkit, template: string, action: 'creating' | 'updating', err: any) {
+  // Log the error message
+  const errorMessage = `An error occurred while ${action} the issue. This might be caused by a malformed issue title, or a typo in the labels or assignees. Check ${template}!`
+  tools.log.error(errorMessage)
+  tools.log.error(err)
+
+  // The error might have more details
+  if (err.errors) tools.log.error(err.errors)
+
+  // Exit with a failing status
+  core.setFailed(errorMessage + '\n\n' + err.message)
+  return tools.exit.failure()
+}
+
 export async function createAnIssue (tools: Toolkit) {
   const template = tools.inputs.filename || '.github/ISSUE_TEMPLATE.md'
   const assignees = tools.inputs.assignees
@@ -47,16 +61,11 @@ export async function createAnIssue (tools: Toolkit) {
   tools.log.debug('Templates compiled', templated)
 
   if (updateExisting !== null) {
-    let existingIssue
     tools.log.info(`Fetching issues with title "${templated.title}"`)
-    try {
-      const existingIssues = await tools.github.search.issuesAndPullRequests({
-        q: `is:${searchExistingType} is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`
-      })
-      existingIssue = existingIssues.data.items.find(issue => issue.title === templated.title)
-    } catch (err) {
-      tools.exit.failure(err)
-    }
+    const existingIssues = await tools.github.search.issuesAndPullRequests({
+      q: `is:${searchExistingType} is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`
+    })
+    const existingIssue = existingIssues.data.items.find(issue => issue.title === templated.title)
     if (existingIssue) {
       if (updateExisting === false) {
         tools.exit.success(`Existing issue ${existingIssue.title}#${existingIssue.number}: ${existingIssue.html_url} found but not updated`)
@@ -70,8 +79,8 @@ export async function createAnIssue (tools: Toolkit) {
           })
           setOutputs(tools, issue)
           tools.exit.success(`Updated issue ${existingIssue.title}#${existingIssue.number}: ${existingIssue.html_url}`)
-        } catch (err) {
-          tools.exit.failure(err)
+        } catch (err: any) {
+          return logError(tools, template, 'updating', err)
         }
       }
     } else {
@@ -92,17 +101,7 @@ export async function createAnIssue (tools: Toolkit) {
 
     setOutputs(tools, issue)
     tools.log.success(`Created issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
-  } catch (err) {
-    // Log the error message
-    const errorMessage = `An error occurred while creating the issue. This might be caused by a malformed issue title, or a typo in the labels or assignees. Check ${template}!`
-    tools.log.error(errorMessage)
-    tools.log.error(err)
-
-    // The error might have more details
-    if (err.errors) tools.log.error(err.errors)
-
-    // Exit with a failing status
-    core.setFailed(errorMessage + '\n\n' + err.message)
-    tools.exit.failure()
+  } catch (err: any) {
+    return logError(tools, template, 'creating', err)
   }
 }
