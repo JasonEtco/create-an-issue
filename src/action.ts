@@ -54,7 +54,7 @@ export async function createAnIssue (tools: Toolkit) {
         q: `is:${searchExistingType} is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`
       })
       existingIssue = existingIssues.data.items.find(issue => issue.title === templated.title)
-    } catch (err) {
+    } catch (err: any) {
       tools.exit.failure(err)
     }
     if (existingIssue) {
@@ -70,7 +70,7 @@ export async function createAnIssue (tools: Toolkit) {
           })
           setOutputs(tools, issue)
           tools.exit.success(`Updated issue ${existingIssue.title}#${existingIssue.number}: ${existingIssue.html_url}`)
-        } catch (err) {
+        } catch (err: any) {
           tools.exit.failure(err)
         }
       }
@@ -92,7 +92,7 @@ export async function createAnIssue (tools: Toolkit) {
 
     setOutputs(tools, issue)
     tools.log.success(`Created issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
-  } catch (err) {
+  } catch (err: any) {
     // Log the error message
     const errorMessage = `An error occurred while creating the issue. This might be caused by a malformed issue title, or a typo in the labels or assignees. Check ${template}!`
     tools.log.error(errorMessage)
