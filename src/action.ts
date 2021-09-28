@@ -9,6 +9,8 @@ import { FrontMatterAttributes, listToArray, setOutputs } from './helpers'
 export async function createAnIssue (tools: Toolkit) {
   const template = tools.inputs.filename || '.github/ISSUE_TEMPLATE.md'
   const assignees = tools.inputs.assignees
+  const searchExistingType = tools.inputs.search_existing || 'open'
+
   let updateExisting: Boolean | null = null
   if (tools.inputs.update_existing) {
     if (tools.inputs.update_existing === 'true') {
@@ -19,6 +21,7 @@ export async function createAnIssue (tools: Toolkit) {
       tools.exit.failure(`Invalid value update_existing=${tools.inputs.update_existing}, must be one of true or false`)
     }
   }
+
   const env = nunjucks.configure({ autoescape: false })
   env.addFilter('date', dateFilter)
 
@@ -48,7 +51,7 @@ export async function createAnIssue (tools: Toolkit) {
     tools.log.info(`Fetching issues with title "${templated.title}"`)
     try {
       const existingIssues = await tools.github.search.issuesAndPullRequests({
-        q: `is:open is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`
+        q: `is:${searchExistingType} is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`
       })
       existingIssue = existingIssues.data.items.find(issue => issue.title === templated.title)
     } catch (err) {
@@ -66,7 +69,7 @@ export async function createAnIssue (tools: Toolkit) {
             body: templated.body
           })
           setOutputs(tools, issue)
-          tools.exit.success(`Updated issue ${existingIssue.title}#${issue.data.number}: ${issue.data.html_url}`)
+          tools.exit.success(`Updated issue ${existingIssue.title}#${existingIssue.number}: ${existingIssue.html_url}`)
         } catch (err) {
           tools.exit.failure(err)
         }

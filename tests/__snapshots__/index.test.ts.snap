@@ -239,7 +239,7 @@ Array [
 ]
 `;
 
-exports[`create-an-issue updates an existing issue with the same title 1`] = `
+exports[`create-an-issue updates an existing open issue with the same title 1`] = `
 Object {
   "assignees": Array [
     "octocat",

@@ -20,6 +20,10 @@ inputs:
   update_existing:
     description: Update an open existing issue with the same title if it exists
     required: false
+  search_existing:
+    description: Existing types of issues to search for (comma-separated)
+    required: false
+    default: open
 outputs:
   number:
     description: Number of the issue that was created
