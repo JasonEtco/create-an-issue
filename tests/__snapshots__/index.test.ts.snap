@@ -1,5 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`create-an-issue checks the value of update_existing 1`] = `
+Object {
+  "assignees": Array [
+    "octocat",
+    "JasonEtco",
+  ],
+  "body": "Goodbye!",
+  "labels": Array [],
+  "milestone": 1,
+  "title": "Hello!",
+}
+`;
+
 exports[`create-an-issue creates a new issue 1`] = `
 Object {
   "assignees": Array [],
@@ -182,6 +195,19 @@ Array [
     "Created issue This Issue has a generalizable GitHub Pages Link#1: www",
   ],
 ]
+`;
+
+exports[`create-an-issue finds, but does not update an existing issue with the same title 1`] = `
+Object {
+  "assignees": Array [
+    "octocat",
+    "JasonEtco",
+  ],
+  "body": "Goodbye!",
+  "labels": Array [],
+  "milestone": 1,
+  "title": "Hello!",
+}
 `;
 
 exports[`create-an-issue logs a helpful error if creating an issue throws an error 1`] = `
