@@ -39,13 +39,10 @@ export async function createAnIssue (tools: Toolkit) {
     let existingIssue
     tools.log.info(`Fetching issues with title "${templated.title}"`)
     try {
-
       const existingIssues = await tools.github.search.issuesAndPullRequests({
         q: `is:${searchExistingType} is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`
       })
-
       existingIssue = existingIssues.data.items.find(issue => issue.title === templated.title)
-
     } catch (err) {
       tools.exit.failure(err)
     }
