@@ -23,6 +23,7 @@ inputs:
   search_existing:
     description: Existing types of issues to search for (comma-separated)
     required: false
+    default: open
 outputs:
   number:
     description: Number of the issue that was created
