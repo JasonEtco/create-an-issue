@@ -151,25 +151,52 @@ describe('create-an-issue', () => {
     expect(tools.log.success).toHaveBeenCalled()
   })
 
+  it('checks the value of update_existing', async () => {
+    process.env.INPUT_UPDATE_EXISTING = 'invalid'
+
+    await createAnIssue(tools)
+    expect(params).toMatchSnapshot()
+    expect(tools.exit.failure).toHaveBeenCalledWith('Invalid value update_existing=invalid, must be one of true or false')
+  })
+
   it('updates an existing issue with the same title', async () => {
     nock.cleanAll()
     nock('https://api.github.com')
       .get(/\/search\/issues.*/).reply(200, {
-        items: [{ number: 1, title: 'Hello!' }]
+        items: [{ number: 1, title: 'Hello!', html_url: '/issues/1' }]
       })
-      .patch(/\/repos\/.*\/.*\/issues\/.*/).reply(200, {})
+      .patch(/\/repos\/.*\/.*\/issues/).reply(200, (_, body: any) => {
+        return {
+          title: body.title,
+          number: 1,
+          html_url: '/issues/1'
+        }
+      })
     process.env.INPUT_UPDATE_EXISTING = 'true'
 
     await createAnIssue(tools)
     expect(params).toMatchSnapshot()
-    expect(tools.exit.success).toHaveBeenCalled()
+    expect(tools.exit.success).toHaveBeenCalledWith('Updated issue Hello!#1: /issues/1')
+  })
+
+  it('finds, but does not update an existing issue with the same title', async () => {
+    nock.cleanAll()
+    nock('https://api.github.com')
+      .get(/\/search\/issues.*/).reply(200, {
+        items: [{ number: 1, title: 'Hello!', html_url: '/issues/1' }]
+      })
+    process.env.INPUT_UPDATE_EXISTING = 'false'
+
+    await createAnIssue(tools)
+    expect(params).toMatchSnapshot()
+    expect(tools.exit.success).toHaveBeenCalledWith('Existing issue Hello!#1: /issues/1 found but not updated')
   })
 
   it('exits when updating an issue fails', async () => {
     nock.cleanAll()
     nock('https://api.github.com')
       .get(/\/search\/issues.*/).reply(200, {
-        items: [{ number: 1, title: 'Hello!' }]
+        items: [{ number: 1, title: 'Hello!', html_url: '/issues/1' }]
       })
       .patch(/\/repos\/.*\/.*\/issues\/.*/).reply(500, {
         message: 'Updating issue failed'
