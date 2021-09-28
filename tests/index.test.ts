@@ -186,21 +186,7 @@ describe('create-an-issue', () => {
         var q = parsedQuery['q']
         if (typeof(q) === 'string') {
           var args = q.split(' ')
-          return args.includes('is:open') && args.includes('is:issue')
-        } else {
-          return false
-        }
-      })
-      .reply(200, {
-        items: []
-      })
-      // matching closed issue
-      .get(/\/search\/issues.*/)
-      .query(parsedQuery => {
-        var q = parsedQuery['q']
-        if (typeof(q) === 'string') {
-          var args = q.split(' ')
-          return args.includes('is:closed') && args.includes('is:issue')
+          return args.includes('is:all') && args.includes('is:issue')
         } else {
           return false
         }
@@ -211,12 +197,12 @@ describe('create-an-issue', () => {
       .patch(/\/repos\/.*\/.*\/issues\/.*/).reply(200, {})
 
     process.env.INPUT_UPDATE_EXISTING = 'true'
-    process.env.INPUT_SEARCH_EXISTING = 'open, closed'
+    process.env.INPUT_SEARCH_EXISTING = 'all'
 
     await createAnIssue(tools)
     expect(params).toMatchSnapshot()
     expect(tools.exit.success).toHaveBeenCalled()
-  })  
+  })
 
   it('exits when updating an issue fails', async () => {
     nock.cleanAll()

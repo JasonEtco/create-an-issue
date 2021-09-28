@@ -87,12 +87,12 @@ steps:
       assignees: JasonEtco, octocat
       milestone: 1
       update_existing: true
-      search_existing: open, closed
+      search_existing: all
 ```
 
-The `assignees` and `milestone` speak for themselves. 
-The `update_existing` param can be passed and set to `true` when you want to update an open issue with the **exact same title** when it exists. 
-The `search_existing` param lets you specify whether to search open and/or closed existing issues for duplicates (default is `open`).
+* The `assignees` and `milestone` speak for themselves.
+* The `update_existing` param can be passed and set to `true` when you want to update an open issue with the **exact same title** when it exists.
+* The `search_existing` param lets you specify whether to search `open`, `closed`, or `all` existing issues for duplicates (default is `open`).
 
 ### Outputs
 
