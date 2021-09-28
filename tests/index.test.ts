@@ -156,9 +156,9 @@ describe('create-an-issue', () => {
     nock('https://api.github.com')
       .get(/\/search\/issues.*/)
       .query(parsedQuery => {
-        var q = parsedQuery['q']
+        const q = parsedQuery['q']
         if (typeof(q) === 'string') {
-          var args = q.split(' ')
+          const args = q.split(' ')
           return (args.includes('is:open') || args.includes('is:closed')) 
             && args.includes('is:issue')
         } else {
@@ -188,19 +188,18 @@ describe('create-an-issue', () => {
   it('updates an existing closed issue with the same title', async () => {
     nock.cleanAll()
     nock('https://api.github.com')
-      // no matching open issues
       .get(/\/search\/issues.*/)
       .query(parsedQuery => {
-        var q = parsedQuery['q']
+        const q = parsedQuery['q']
         if (typeof(q) === 'string') {
-          var args = q.split(' ')
+          const args = q.split(' ')
           return args.includes('is:all') && args.includes('is:issue')
         } else {
           return false
         }
       })
       .reply(200, {
-        items: [{ number: 1, title: 'Hello!' }]
+        items: [{ number: 1, title: 'Hello!', html_url: '/issues/1' }]
       })
       .patch(/\/repos\/.*\/.*\/issues\/.*/).reply(200, {})
 
@@ -208,7 +207,6 @@ describe('create-an-issue', () => {
     process.env.INPUT_SEARCH_EXISTING = 'all'
 
     await createAnIssue(tools)
-    expect(params).toMatchSnapshot()
     expect(tools.exit.success).toHaveBeenCalledWith('Updated issue Hello!#1: /issues/1')
   })
 

@@ -69,7 +69,7 @@ export async function createAnIssue (tools: Toolkit) {
             body: templated.body
           })
           setOutputs(tools, issue)
-          tools.exit.success(`Updated issue ${existingIssue.title}#${issue.data.number}: ${issue.data.html_url}`)
+          tools.exit.success(`Updated issue ${existingIssue.title}#${existingIssue.number}: ${existingIssue.html_url}`)
         } catch (err) {
           tools.exit.failure(err)
         }

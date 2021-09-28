@@ -239,19 +239,6 @@ Array [
 ]
 `;
 
-exports[`create-an-issue updates an existing closed issue with the same title 1`] = `
-Object {
-  "assignees": Array [
-    "octocat",
-    "JasonEtco",
-  ],
-  "body": "Goodbye!",
-  "labels": Array [],
-  "milestone": 1,
-  "title": "Hello!",
-}
-`;
-
 exports[`create-an-issue updates an existing open issue with the same title 1`] = `
 Object {
   "assignees": Array [
