@@ -126,14 +126,14 @@ Object {
     "foo",
   ],
   "milestone": 2,
-  "title": "DO EVERYTHING",
+  "title": "DO EVERYTHING foo",
 }
 `;
 
 exports[`create-an-issue creates a new issue with assignees, labels and a milestone 2`] = `
 Array [
   Array [
-    "Created issue DO EVERYTHING#1: www",
+    "Created issue DO EVERYTHING foo#1: www",
   ],
 ]
 `;

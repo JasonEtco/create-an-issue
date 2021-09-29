@@ -1,5 +1,5 @@
 ---
-title: DO EVERYTHING
+title: DO EVERYTHING {{ env.EXAMPLE }}
 assignees:
   - JasonEtco
 labels:

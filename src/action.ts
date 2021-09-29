@@ -4,7 +4,7 @@ import fm from 'front-matter'
 import nunjucks from 'nunjucks'
 // @ts-ignore
 import dateFilter from 'nunjucks-date-filter'
-import { FrontMatterAttributes, listToArray, listToString, setOutputs } from './helpers'
+import { FrontMatterAttributes, listToArray, setOutputs } from './helpers'
 
 function logError(tools: Toolkit, template: string, action: 'creating' | 'updating', err: any) {
   // Log the error message
@@ -57,7 +57,7 @@ export async function createAnIssue (tools: Toolkit) {
   const templated = {
     body: env.renderString(body, templateVariables),
     title: env.renderString(attributes.title, templateVariables),
-    labels: listToArray(env.renderString(listToString(attributes.labels), templateVariables)),
+    labels: listToArray(attributes.labels).map(label => env.renderString(label, templateVariables)),
   }
   tools.log.debug('Templates compiled', templated)
 
