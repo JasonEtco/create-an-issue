@@ -185,6 +185,14 @@ describe('create-an-issue', () => {
     expect(tools.exit.failure).toHaveBeenCalledWith('Invalid value update_existing=invalid, must be one of true or false')
   })
 
+  it('checks the value of search_existing', async () => {
+    process.env.INPUT_SEARCH_EXISTING = 'invalid'
+
+    await createAnIssue(tools)
+    expect(params).toMatchSnapshot()
+    expect(tools.exit.failure).toHaveBeenCalledWith('Invalid value search_existing=invalid, must be one of open, closed or all')
+  })
+
   it('updates an existing closed issue with the same title', async () => {
     nock.cleanAll()
     nock('https://api.github.com')

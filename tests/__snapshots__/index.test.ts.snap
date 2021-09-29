@@ -1,5 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`create-an-issue checks the value of search_existing 1`] = `
+Object {
+  "assignees": Array [
+    "octocat",
+    "JasonEtco",
+  ],
+  "body": "Goodbye!",
+  "labels": Array [],
+  "milestone": 1,
+  "title": "Hello!",
+}
+`;
+
 exports[`create-an-issue checks the value of update_existing 1`] = `
 Object {
   "assignees": Array [
