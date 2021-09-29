@@ -51,6 +51,10 @@ describe('create-an-issue', () => {
     process.env.EXAMPLE = 'foo'
   })
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('creates a new issue', async () => {
     await createAnIssue(tools)
     expect(params).toMatchSnapshot()
@@ -58,9 +62,10 @@ describe('create-an-issue', () => {
     expect((tools.log.success as any).mock.calls).toMatchSnapshot()
 
     // Verify that the outputs were set
-    expect(core.setOutput).toHaveBeenCalledTimes(2)
+    expect(core.setOutput).toHaveBeenCalledTimes(3)
     expect(core.setOutput).toHaveBeenCalledWith('url', 'www')
     expect(core.setOutput).toHaveBeenCalledWith('number', '1')
+    expect(core.setOutput).toHaveBeenCalledWith('status', 'created')
   })
 
   it('creates a new issue from a different template', async () => {
@@ -166,7 +171,7 @@ describe('create-an-issue', () => {
         }
       })
       .reply(200, {
-        items: [{ number: 1, title: 'Hello!' }]
+        items: [{ number: 1, title: 'Hello!', html_url: 'www' }]
       })
       .patch(/\/repos\/.*\/.*\/issues\/.*/).reply(200, {})
 
@@ -175,6 +180,12 @@ describe('create-an-issue', () => {
     await createAnIssue(tools)
     expect(params).toMatchSnapshot()
     expect(tools.exit.success).toHaveBeenCalled()
+
+    // Verify that the outputs were set
+    expect(core.setOutput).toHaveBeenCalledTimes(3)
+    expect(core.setOutput).toHaveBeenCalledWith('url', 'www')
+    expect(core.setOutput).toHaveBeenCalledWith('number', '1')
+    expect(core.setOutput).toHaveBeenCalledWith('status', 'updated')
   })
   
   it('checks the value of update_existing', async () => {
@@ -199,7 +210,7 @@ describe('create-an-issue', () => {
         }
       })
       .reply(200, {
-        items: [{ number: 1, title: 'Hello!', html_url: '/issues/1' }]
+        items: [{ number: 1, title: 'Hello!', html_url: 'www' }]
       })
       .patch(/\/repos\/.*\/.*\/issues\/.*/).reply(200, {})
 
@@ -207,27 +218,33 @@ describe('create-an-issue', () => {
     process.env.INPUT_SEARCH_EXISTING = 'all'
 
     await createAnIssue(tools)
-    expect(tools.exit.success).toHaveBeenCalledWith('Updated issue Hello!#1: /issues/1')
+    expect(tools.exit.success).toHaveBeenCalledWith('Updated issue Hello!#1: www')
   })
 
   it('finds, but does not update an existing issue with the same title', async () => {
     nock.cleanAll()
     nock('https://api.github.com')
       .get(/\/search\/issues.*/).reply(200, {
-        items: [{ number: 1, title: 'Hello!', html_url: '/issues/1' }]
+        items: [{ number: 1, title: 'Hello!', html_url: 'www' }]
       })
     process.env.INPUT_UPDATE_EXISTING = 'false'
 
     await createAnIssue(tools)
     expect(params).toMatchSnapshot()
-    expect(tools.exit.success).toHaveBeenCalledWith('Existing issue Hello!#1: /issues/1 found but not updated')
+    expect(tools.exit.success).toHaveBeenCalledWith('Existing issue Hello!#1: www found but not updated')
+
+    // Verify that the outputs were set
+    expect(core.setOutput).toHaveBeenCalledTimes(3)
+    expect(core.setOutput).toHaveBeenCalledWith('url', 'www')
+    expect(core.setOutput).toHaveBeenCalledWith('number', '1')
+    expect(core.setOutput).toHaveBeenCalledWith('status', 'found')
   })
 
   it('exits when updating an issue fails', async () => {
     nock.cleanAll()
     nock('https://api.github.com')
       .get(/\/search\/issues.*/).reply(200, {
-        items: [{ number: 1, title: 'Hello!', html_url: '/issues/1' }]
+        items: [{ number: 1, title: 'Hello!', html_url: 'www' }]
       })
       .patch(/\/repos\/.*\/.*\/issues\/.*/).reply(500, {
         message: 'Updating issue failed'

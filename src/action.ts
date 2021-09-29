@@ -68,6 +68,7 @@ export async function createAnIssue (tools: Toolkit) {
     const existingIssue = existingIssues.data.items.find(issue => issue.title === templated.title)
     if (existingIssue) {
       if (updateExisting === false) {
+        setOutputs(tools, existingIssue, 'found')
         tools.exit.success(`Existing issue ${existingIssue.title}#${existingIssue.number}: ${existingIssue.html_url} found but not updated`)
       } else {
         try {
@@ -77,7 +78,7 @@ export async function createAnIssue (tools: Toolkit) {
             issue_number: existingIssue.number,
             body: templated.body
           })
-          setOutputs(tools, issue)
+          setOutputs(tools, existingIssue, 'updated')
           tools.exit.success(`Updated issue ${existingIssue.title}#${existingIssue.number}: ${existingIssue.html_url}`)
         } catch (err: any) {
           return logError(tools, template, 'updating', err)
@@ -99,7 +100,7 @@ export async function createAnIssue (tools: Toolkit) {
       milestone: Number(tools.inputs.milestone || attributes.milestone) || undefined
     })
 
-    setOutputs(tools, issue)
+    setOutputs(tools, issue.data, 'created')
     tools.log.success(`Created issue ${issue.data.title}#${issue.data.number}: ${issue.data.html_url}`)
   } catch (err: any) {
     return logError(tools, template, 'creating', err)

@@ -1,5 +1,4 @@
 import { Toolkit } from 'actions-toolkit'
-import { IssuesCreateResponseData } from '@octokit/types'
 
 export interface FrontMatterAttributes {
   title: string
@@ -8,9 +7,10 @@ export interface FrontMatterAttributes {
   milestone?: string | number
 }
 
-export function setOutputs (tools: Toolkit, issue: { data: IssuesCreateResponseData }) {
-  tools.outputs.number = String(issue.data.number)
-  tools.outputs.url = issue.data.html_url
+export function setOutputs (tools: Toolkit, issue: { number: number, html_url: string }, status: string) {
+  tools.outputs.number = String(issue.number)
+  tools.outputs.url = issue.html_url
+  tools.outputs.status = status
 }
 
 export function listToArray (list?: string[] | string) {
