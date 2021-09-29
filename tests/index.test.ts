@@ -193,7 +193,11 @@ describe('create-an-issue', () => {
         const q = parsedQuery['q']
         if (typeof(q) === 'string') {
           const args = q.split(' ')
-          return args.includes('is:all') && args.includes('is:issue')
+          if (args.includes('is:open') || args.includes('is:closed')) {
+            return false
+          } else {
+            return args.includes('is:issue')
+          }
         } else {
           return false
         }

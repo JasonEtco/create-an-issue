@@ -23,7 +23,17 @@ function logError(tools: Toolkit, template: string, action: 'creating' | 'updati
 export async function createAnIssue (tools: Toolkit) {
   const template = tools.inputs.filename || '.github/ISSUE_TEMPLATE.md'
   const assignees = tools.inputs.assignees
-  const searchExistingType = tools.inputs.search_existing || 'open'
+
+  let searchExistingType: String | null = 'is:open '
+  if (tools.inputs.search_existing === 'open') {
+    searchExistingType = 'is:open '
+  } else if (tools.inputs.search_existing === 'closed') {
+    searchExistingType = 'is:closed '
+  } else if (tools.inputs.search_existing === 'all') {
+    searchExistingType = ''
+  } else {
+    tools.exit.failure(`Invalid value search_existing=${tools.inputs.search_existing}, must be one of open, closed or all`)
+  }
 
   let updateExisting: Boolean | null = null
   if (tools.inputs.update_existing) {
@@ -61,9 +71,9 @@ export async function createAnIssue (tools: Toolkit) {
   tools.log.debug('Templates compiled', templated)
 
   if (updateExisting !== null) {
-    tools.log.info(`Fetching ${searchExistingType} issues with title "${templated.title}"`)
+    tools.log.info(`Fetching ${searchExistingType}issues with title "${templated.title}"`)
     const existingIssues = await tools.github.search.issuesAndPullRequests({
-      q: `is:${searchExistingType} is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`
+      q: `${searchExistingType}is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`
     })
     const existingIssue = existingIssues.data.items.find(issue => issue.title === templated.title)
     if (existingIssue) {
