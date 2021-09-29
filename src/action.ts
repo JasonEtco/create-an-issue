@@ -61,7 +61,7 @@ export async function createAnIssue (tools: Toolkit) {
   tools.log.debug('Templates compiled', templated)
 
   if (updateExisting !== null) {
-    tools.log.info(`Fetching issues with title "${templated.title}"`)
+    tools.log.info(`Fetching ${searchExistingType} issues with title "${templated.title}"`)
     const existingIssues = await tools.github.search.issuesAndPullRequests({
       q: `is:${searchExistingType} is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`
     })
