@@ -10,6 +10,9 @@ This GitHub Action creates a new issue based on an issue template file. Here's a
 # .github/workflows/issue-on-push.yml
 on: [push]
 name: Create an issue on push
+permissions:
+  contents: read
+  issues: write 
 jobs:
   stuff:
     runs-on: ubuntu-latest
