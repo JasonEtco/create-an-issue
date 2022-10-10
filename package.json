@@ -38,15 +38,15 @@
       "json"
     ],
     "transform": {
-      ".+\\.tsx?$": "ts-jest"
+      ".+\\.tsx?$": [
+        "ts-jest",
+        {
+          "babelConfig": false
+        }
+      ]
     },
     "testMatch": [
       "<rootDir>/tests/**/*.test.(ts|js)"
-    ],
-    "globals": {
-      "ts-jest": {
-        "babelConfig": false
-      }
-    }
+    ]
   }
 }
