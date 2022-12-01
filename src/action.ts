@@ -23,7 +23,6 @@ function logError(tools: Toolkit, template: string, action: 'creating' | 'updati
 export async function createAnIssue (tools: Toolkit) {
   const template = tools.inputs.filename || '.github/ISSUE_TEMPLATE.md'
   const assignees = tools.inputs.assignees
-  const searchExistingType = tools.inputs.search_existing || 'open'
 
   let updateExisting: Boolean | null = null
   if (tools.inputs.update_existing) {
@@ -62,9 +61,16 @@ export async function createAnIssue (tools: Toolkit) {
 
   if (updateExisting !== null) {
     tools.log.info(`Fetching issues with title "${templated.title}"`)
-    const existingIssues = await tools.github.search.issuesAndPullRequests({
-      q: `is:${searchExistingType} is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`
-    })
+
+    let query = `is:issue repo:${process.env.GITHUB_REPOSITORY} in:title ${templated.title}`
+
+    const searchExistingType = tools.inputs.search_existing || 'open'
+    const allowedStates = ['open', 'closed']
+    if (allowedStates.includes(searchExistingType)) {
+      query += ` is:${searchExistingType}`
+    }
+
+    const existingIssues = await tools.github.search.issuesAndPullRequests({ q: query })
     const existingIssue = existingIssues.data.items.find(issue => issue.title === templated.title)
     if (existingIssue) {
       if (updateExisting === false) {
