@@ -62,7 +62,7 @@ export async function createAnIssue (tools: Toolkit) {
   if (updateExisting !== null) {
     tools.log.info(`Fetching issues with title "${templated.title}"`)
 
-    let query = `is:issue repo:${process.env.GITHUB_REPOSITORY} in:title '${templated.title.replace(/['"]/g, "\\$&")}'`
+    let query = `is:issue repo:${process.env.GITHUB_REPOSITORY} in:title "${templated.title.replace(/['"]/g, "\\$&")}"`
 
     const searchExistingType = tools.inputs.search_existing || 'open'
     const allowedStates = ['open', 'closed']
