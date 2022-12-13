@@ -176,6 +176,25 @@ describe('create-an-issue', () => {
     expect(params).toMatchSnapshot()
     expect(tools.exit.success).toHaveBeenCalled()
   })
+
+  it('escapes quotes in the search query', async () => {
+    process.env.INPUT_FILENAME = '.github/quotes-in-title.md'
+
+    nock.cleanAll()
+    nock('https://api.github.com')
+      .get(/\/search\/issues.*/)
+      .query(parsedQuery => {
+        const q = parsedQuery['q'] as string
+        return q.includes('"This title \\\"has quotes\\\""')
+      })
+      .reply(200, {
+        items: [{ number: 1, title: 'Hello!' }]
+      })
+      .post(/\/repos\/.*\/.*\/issues/).reply(200, {})
+
+    await createAnIssue(tools)
+    expect(tools.log.success).toHaveBeenCalled()
+  })
   
   it('checks the value of update_existing', async () => {
     process.env.INPUT_UPDATE_EXISTING = 'invalid'
