@@ -229,13 +229,6 @@ exports[`create-an-issue logs a helpful error if creating an issue throws an err
   [
     [HttpError: Validation error: {"foo":true}],
   ],
-  [
-    [
-      {
-        "foo": true,
-      },
-    ],
-  ],
 ]
 `;
 
@@ -246,13 +239,6 @@ exports[`create-an-issue logs a helpful error if updating an issue throws an err
   ],
   [
     [HttpError: Validation error: {"foo":true}],
-  ],
-  [
-    [
-      {
-        "foo": true,
-      },
-    ],
   ],
 ]
 `;
