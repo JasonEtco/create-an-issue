@@ -15,7 +15,8 @@
     "front-matter": "^4.0.2",
     "js-yaml": "^4.1.0",
     "nunjucks": "^3.2.3",
-    "nunjucks-date-filter": "^0.1.1"
+    "nunjucks-date-filter": "^0.1.1",
+    "zod": "^3.20.2"
   },
   "devDependencies": {
     "@tsconfig/node12": "^1.0.11",
