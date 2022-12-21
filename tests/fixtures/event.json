@@ -1,6 +1,8 @@
 {
   "repository": {
-    "owner": { "login": "JasonEtco" },
+    "owner": {
+      "login": "JasonEtco"
+    },
     "name": "waddup"
   }
 }

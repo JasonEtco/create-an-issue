@@ -232,6 +232,32 @@ exports[`create-an-issue logs a helpful error if creating an issue throws an err
 ]
 `;
 
+exports[`create-an-issue logs a helpful error if the frontmatter is invalid 1`] = `
+[
+  [
+    "An error occurred while parsing the issue. This might be caused by a malformed issue title, or a typo in the labels or assignees. Check .github/invalid-frontmatter.md!",
+  ],
+  [
+    {
+      "_errors": [
+        "Unrecognized key(s) in object: 'name', 'not_a_thing'",
+      ],
+      "labels": {
+        "_errors": [
+          "Expected array, received number",
+          "Expected string, received number",
+        ],
+      },
+      "title": {
+        "_errors": [
+          "Required",
+        ],
+      },
+    },
+  ],
+]
+`;
+
 exports[`create-an-issue logs a helpful error if updating an issue throws an error with more errors 1`] = `
 [
   [
