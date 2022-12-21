@@ -6,7 +6,7 @@ export const frontmatterSchema = z.object({
   assignees: z.union([z.array(z.string()), z.string()]).optional(),
   labels: z.union([z.array(z.string()), z.string()]).optional(),
   milestone: z.union([z.string(), z.number()]).optional()
-})
+}).strict()
 
 export type FrontMatterAttributes = z.infer<typeof frontmatterSchema>
 

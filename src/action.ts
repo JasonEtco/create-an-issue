@@ -4,9 +4,10 @@ import fm from 'front-matter'
 import nunjucks from 'nunjucks'
 // @ts-ignore
 import dateFilter from 'nunjucks-date-filter'
+import { ZodError } from 'zod'
 import { FrontMatterAttributes, frontmatterSchema, listToArray, setOutputs } from './helpers'
 
-function logError(tools: Toolkit, template: string, action: 'creating' | 'updating', err: any) {
+function logError(tools: Toolkit, template: string, action: 'creating' | 'updating' | 'parsing', err: any) {
   // Log the error message
   const errorMessage = `An error occurred while ${action} the issue. This might be caused by a malformed issue title, or a typo in the labels or assignees. Check ${template}!`
   tools.log.error(errorMessage)
@@ -51,7 +52,18 @@ export async function createAnIssue (tools: Toolkit) {
 
   // Grab the front matter as JSON
   const { attributes: rawAttributes, body } = fm<FrontMatterAttributes>(file)
-  const attributes = await frontmatterSchema.parseAsync(rawAttributes)
+
+  let attributes: FrontMatterAttributes
+  try {
+    attributes = await frontmatterSchema.parseAsync(rawAttributes)
+  } catch (err) {
+    if (err instanceof ZodError) {
+      const formatted = err.format()
+      return logError(tools, template, 'parsing', formatted)
+    }
+    throw err
+  }
+
   tools.log(`Front matter for ${template} is`, attributes)
 
   const templated = {

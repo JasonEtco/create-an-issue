@@ -302,4 +302,13 @@ describe('create-an-issue', () => {
     expect((tools.log.error as any).mock.calls).toMatchSnapshot()
     expect(tools.exit.failure).toHaveBeenCalled()
   })
+
+  it('logs a helpful error if the frontmatter is invalid', async () => {
+    process.env.INPUT_FILENAME = '.github/invalid-frontmatter.md'
+
+    await createAnIssue(tools)
+    expect(tools.log.error).toHaveBeenCalled()
+    expect((tools.log.error as any).mock.calls).toMatchSnapshot()
+    expect(tools.exit.failure).toHaveBeenCalled()
+  })
 })
