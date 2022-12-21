@@ -1,11 +1,14 @@
 import { Toolkit } from 'actions-toolkit'
+import { z } from 'zod'
 
-export interface FrontMatterAttributes {
-  title: string
-  assignees?: string[] | string
-  labels?: string[] | string
-  milestone?: string | number
-}
+export const frontmatterSchema = z.object({
+  title: z.string(),
+  assignees: z.union([z.array(z.string()), z.string()]).optional(),
+  labels: z.union([z.array(z.string()), z.string()]).optional(),
+  milestone: z.union([z.string(), z.number()]).optional()
+})
+
+export type FrontMatterAttributes = z.infer<typeof frontmatterSchema>
 
 export function setOutputs (tools: Toolkit, issue: { number: number, html_url: string }) {
   tools.outputs.number = String(issue.number)

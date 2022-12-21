@@ -4,7 +4,7 @@ import fm from 'front-matter'
 import nunjucks from 'nunjucks'
 // @ts-ignore
 import dateFilter from 'nunjucks-date-filter'
-import { FrontMatterAttributes, listToArray, setOutputs } from './helpers'
+import { FrontMatterAttributes, frontmatterSchema, listToArray, setOutputs } from './helpers'
 
 function logError(tools: Toolkit, template: string, action: 'creating' | 'updating', err: any) {
   // Log the error message
@@ -50,7 +50,8 @@ export async function createAnIssue (tools: Toolkit) {
   const file = await tools.readFile(template) as string
 
   // Grab the front matter as JSON
-  const { attributes, body } = fm<FrontMatterAttributes>(file)
+  const { attributes: rawAttributes, body } = fm<FrontMatterAttributes>(file)
+  const attributes = await frontmatterSchema.parseAsync(rawAttributes)
   tools.log(`Front matter for ${template} is`, attributes)
 
   const templated = {
