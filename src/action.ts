@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import { Toolkit } from 'actions-toolkit'
 import fm from 'front-matter'
 import nunjucks from 'nunjucks'
-// @ts-ignore
+// @ts-expect-error
 import dateFilter from 'nunjucks-date-filter'
 import { ZodError } from 'zod'
 import { FrontMatterAttributes, frontmatterSchema, listToArray, setOutputs } from './helpers'
