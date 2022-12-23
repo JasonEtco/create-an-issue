@@ -7,6 +7,8 @@ export const frontmatterSchema = z
     assignees: z.union([z.array(z.string()), z.string()]).optional(),
     labels: z.union([z.array(z.string()), z.string()]).optional(),
     milestone: z.union([z.string(), z.number()]).optional(),
+    name: z.string().optional(),
+    about: z.string().optional(),
   })
   .strict();
 

@@ -240,7 +240,7 @@ exports[`create-an-issue logs a helpful error if the frontmatter is invalid 1`] 
   [
     {
       "_errors": [
-        "Unrecognized key(s) in object: 'name', 'not_a_thing'",
+        "Unrecognized key(s) in object: 'not_a_thing'",
       ],
       "labels": {
         "_errors": [
