@@ -99,7 +99,7 @@ steps:
 
 ### Outputs
 
-If you need the number or URL of the issue that was created for another Action, you can use the `number` or `url` outputs, respectively. For example:
+If you need the number or URL of the issue that was created for another Action, you can use the `number` or `url` outputs, respectively. The `node id` is useful if another action uses the [GraphQL API](https://docs.github.com/en/graphql/reference). For example:
 
 ```yaml
 steps:
