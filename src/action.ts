@@ -31,6 +31,22 @@ function logError(
   return tools.exit.failure();
 }
 
+function parseJSONInEnv(
+  env: Record<string, string | undefined>
+): Record<string, string | unknown> {
+  const result: Record<string, string | unknown> = { ...env };
+
+  for (const key of Object.keys(env)) {
+    if (key.startsWith("JSON_") && env[key]) {
+      try {
+        result[key] = JSON.parse(env[key]!);
+      } catch (e) {}
+    }
+  }
+
+  return result;
+}
+
 export async function createAnIssue(tools: Toolkit) {
   const template = tools.inputs.filename || ".github/ISSUE_TEMPLATE.md";
   const assignees = tools.inputs.assignees;
@@ -54,7 +70,7 @@ export async function createAnIssue(tools: Toolkit) {
   const templateVariables = {
     ...tools.context,
     repo: tools.context.repo,
-    env: process.env,
+    env: parseJSONInEnv(process.env),
     date: Date.now(),
   };
 
