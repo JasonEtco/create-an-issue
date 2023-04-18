@@ -7,6 +7,9 @@ branding:
   icon: alert-circle
   color: gray-dark
 inputs:
+  repo:
+    description: The repository to create the issue in, Defaults to the current repository
+    required: false
   assignees:
     description: GitHub handle of the user(s) to assign the issue (comma-separated)
     required: false

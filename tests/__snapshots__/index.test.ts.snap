@@ -177,6 +177,23 @@ exports[`create-an-issue creates a new issue with some template variables 2`] = 
 ]
 `;
 
+exports[`create-an-issue creates a new issue with specific repo passed by input 1`] = `
+{
+  "assignees": [],
+  "body": "Goodbye!",
+  "labels": [],
+  "title": "Hello!",
+}
+`;
+
+exports[`create-an-issue creates a new issue with specific repo passed by input 2`] = `
+[
+  [
+    "Created issue Hello!#1: www",
+  ],
+]
+`;
+
 exports[`create-an-issue creates a new issue with the context.repo template variables 1`] = `
 {
   "assignees": [],

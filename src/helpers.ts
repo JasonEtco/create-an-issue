@@ -4,6 +4,7 @@ import { z } from "zod";
 export const frontmatterSchema = z
   .object({
     title: z.string(),
+    repo: z.string().optional(),
     assignees: z.union([z.array(z.string()), z.string()]).optional(),
     labels: z.union([z.array(z.string()), z.string()]).optional(),
     milestone: z.union([z.string(), z.number()]).optional(),

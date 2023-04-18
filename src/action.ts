@@ -51,9 +51,14 @@ export async function createAnIssue(tools: Toolkit) {
   const env = nunjucks.configure({ autoescape: false });
   env.addFilter("date", dateFilter);
 
+  let repo: { owner: string, repo: string } = tools.context.repo;
+  if (tools.inputs.repo) {
+    const [owner, repoName] = tools.inputs.repo.split("/");
+    repo = { owner, repo: repoName };
+  }
   const templateVariables = {
     ...tools.context,
-    repo: tools.context.repo,
+    repo: repo,
     env: process.env,
     date: Date.now(),
   };
@@ -88,7 +93,7 @@ export async function createAnIssue(tools: Toolkit) {
     tools.log.info(`Fetching issues with title "${templated.title}"`);
 
     let query = `is:issue repo:${
-      process.env.GITHUB_REPOSITORY
+      repo.owner + "/" + repo.repo
     } in:title "${templated.title.replace(/['"]/g, "\\$&")}"`;
 
     const searchExistingType = tools.inputs.search_existing || "open";
@@ -114,7 +119,7 @@ export async function createAnIssue(tools: Toolkit) {
             `Updating existing issue ${existingIssue.title}#${existingIssue.number}: ${existingIssue.html_url}`
           );
           const issue = await tools.github.issues.update({
-            ...tools.context.repo,
+            ...repo,
             issue_number: existingIssue.number,
             body: templated.body,
           });
@@ -135,7 +140,7 @@ export async function createAnIssue(tools: Toolkit) {
   tools.log.info(`Creating new issue ${templated.title}`);
   try {
     const issue = await tools.github.issues.create({
-      ...tools.context.repo,
+      ...repo,
       ...templated,
       assignees: assignees
         ? listToArray(assignees)
