@@ -7,9 +7,15 @@ branding:
   icon: alert-circle
   color: gray-dark
 inputs:
-  repo:
-    description: The repository to create the issue in, Defaults to the current repository
-    required: false
+  repository:
+    description: 'Repository name with owner. For example, actions/checkout'
+    default: ${{ github.repository }}
+  token:
+    description: >
+      If you want to create issue on a different repository, you can using a personal access token (PAT).
+      
+      [Learn how to create a personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+    default: ${{ github.token }}
   assignees:
     description: GitHub handle of the user(s) to assign the issue (comma-separated)
     required: false

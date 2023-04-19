@@ -108,9 +108,9 @@ describe("create-an-issue", () => {
   });
 
   it("creates a new issue with specific repo passed by input", async () => {
-    process.env.INPUT_REPO = "define/repo";
+    process.env.INPUT_REPOSITORY = "define/repo";
     await createAnIssue(tools);
-    expect(repo).toEqual(process.env.INPUT_REPO)
+    expect(repo).toEqual("define/repo");
     expect(params).toMatchSnapshot();
     expect(tools.log.success).toHaveBeenCalled();
     expect((tools.log.success as any).mock.calls).toMatchSnapshot();

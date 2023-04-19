@@ -32,6 +32,11 @@ function logError(
 }
 
 export async function createAnIssue(tools: Toolkit) {
+  // token and repository both have defaults, so we can safely use the "!" operator
+  tools.token = tools.inputs.token!;
+  const repoInfo = tools.inputs.repository!.trim().split("/")
+  const repo: {owner: string, repo: string} = { owner: repoInfo[0], repo: repoInfo[1] }
+
   const template = tools.inputs.filename || ".github/ISSUE_TEMPLATE.md";
   const assignees = tools.inputs.assignees;
 
@@ -51,11 +56,6 @@ export async function createAnIssue(tools: Toolkit) {
   const env = nunjucks.configure({ autoescape: false });
   env.addFilter("date", dateFilter);
 
-  let repo: { owner: string, repo: string } = tools.context.repo;
-  if (tools.inputs.repo) {
-    const [owner, repoName] = tools.inputs.repo.split("/");
-    repo = { owner, repo: repoName };
-  }
   const templateVariables = {
     ...tools.context,
     repo: repo,
