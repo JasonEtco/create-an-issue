@@ -6,7 +6,7 @@ import { createAnIssue } from "../src/action";
 
 function generateToolkit() {
   const tools = new Toolkit({
-    logger: new Signale({disabled: true}),
+    logger: new Signale({ disabled: true }),
   });
 
   jest.spyOn(tools.log, "info");
@@ -14,12 +14,10 @@ function generateToolkit() {
   jest.spyOn(tools.log, "success");
 
   // Turn core.setOutput into a mocked noop
-  jest.spyOn(core, "setOutput").mockImplementation(() => {
-  });
+  jest.spyOn(core, "setOutput").mockImplementation(() => {});
 
   // Turn core.setFailed into a mocked noop
-  jest.spyOn(core, "setFailed").mockImplementation(() => {
-  });
+  jest.spyOn(core, "setFailed").mockImplementation(() => {});
 
   tools.exit.success = jest.fn() as any;
   tools.exit.failure = jest.fn() as any;
@@ -69,7 +67,7 @@ describe("create-an-issue", () => {
   it("creates a new issue from a different template", async () => {
     process.env.INPUT_FILENAME = ".github/different-template.md";
     tools.context.payload = {
-      repository: {owner: {login: "JasonEtco"}, name: "waddup"},
+      repository: { owner: { login: "JasonEtco" }, name: "waddup" },
     };
     await createAnIssue(tools);
     expect(params).toMatchSnapshot();
@@ -186,7 +184,7 @@ describe("create-an-issue", () => {
         }
       })
       .reply(200, {
-        items: [{number: 1, title: "Hello!"}],
+        items: [{ number: 1, title: "Hello!" }],
       })
       .patch(/\/repos\/.*\/.*\/issues\/.*/)
       .reply(200, {});
@@ -209,7 +207,7 @@ describe("create-an-issue", () => {
         return q.includes('"This title \\"has quotes\\""');
       })
       .reply(200, {
-        items: [{number: 1, title: "Hello!"}],
+        items: [{ number: 1, title: "Hello!" }],
       })
       .post(/\/repos\/.*\/.*\/issues/)
       .reply(200, {});
@@ -242,7 +240,7 @@ describe("create-an-issue", () => {
         }
       })
       .reply(200, {
-        items: [{number: 1, title: "Hello!", html_url: "/issues/1"}],
+        items: [{ number: 1, title: "Hello!", html_url: "/issues/1" }],
       })
       .patch(/\/repos\/.*\/.*\/issues\/.*/)
       .reply(200, {});
@@ -261,7 +259,7 @@ describe("create-an-issue", () => {
     nock("https://api.github.com")
       .get(/\/search\/issues.*/)
       .reply(200, {
-        items: [{number: 1, title: "Hello!", html_url: "/issues/1"}],
+        items: [{ number: 1, title: "Hello!", html_url: "/issues/1" }],
       });
     process.env.INPUT_UPDATE_EXISTING = "false";
 
@@ -277,7 +275,7 @@ describe("create-an-issue", () => {
     nock("https://api.github.com")
       .get(/\/search\/issues.*/)
       .reply(200, {
-        items: [{number: 1, title: "Hello!", html_url: "/issues/1"}],
+        items: [{ number: 1, title: "Hello!", html_url: "/issues/1" }],
       })
       .patch(/\/repos\/.*\/.*\/issues\/.*/)
       .reply(500, {
@@ -292,7 +290,7 @@ describe("create-an-issue", () => {
     nock.cleanAll();
     nock("https://api.github.com")
       .get(/\/search\/issues.*/)
-      .reply(200, {items: []})
+      .reply(200, { items: [] })
       .post(/\/repos\/.*\/.*\/issues/)
       .reply(500, {
         message: "Validation error",
@@ -308,11 +306,11 @@ describe("create-an-issue", () => {
     nock.cleanAll();
     nock("https://api.github.com")
       .get(/\/search\/issues.*/)
-      .reply(200, {items: []})
+      .reply(200, { items: [] })
       .post(/\/repos\/.*\/.*\/issues/)
       .reply(500, {
         message: "Validation error",
-        errors: [{foo: true}],
+        errors: [{ foo: true }],
       });
 
     await createAnIssue(tools);
@@ -325,11 +323,11 @@ describe("create-an-issue", () => {
     nock.cleanAll();
     nock("https://api.github.com")
       .get(/\/search\/issues.*/)
-      .reply(200, {items: [{number: 1, title: "Hello!"}]})
+      .reply(200, { items: [{ number: 1, title: "Hello!" }] })
       .patch(/\/repos\/.*\/.*\/issues\/.*/)
       .reply(500, {
         message: "Validation error",
-        errors: [{foo: true}],
+        errors: [{ foo: true }],
       });
 
     process.env.INPUT_UPDATE_EXISTING = "true";
