@@ -134,13 +134,12 @@ export async function createAnIssue(tools: Toolkit) {
   // Create the new issue
   tools.log.info(`Creating new issue ${templated.title}`);
   try {
+    const templateAssignees = assignees ? assignees : attributes.assignees;
     const issue = await tools.github.issues.create({
       ...tools.context.repo,
       ...templated,
-      assignees: assignees
-        ? listToArray(assignees)
-        : listToArray(attributes.assignees),
-      labels: listToArray(attributes.labels),
+      assignees: templateAssignees ? listToArray(templateAssignees, env, templateVariables) : [],
+      labels: attributes.labels ? listToArray(attributes.labels, env, templateVariables) : [],
       milestone:
         Number(tools.inputs.milestone || attributes.milestone) || undefined,
     });
