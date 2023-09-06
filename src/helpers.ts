@@ -1,4 +1,5 @@
 import { Toolkit } from "actions-toolkit";
+import nunjucks from "nunjucks";
 import { z } from "zod";
 
 export const frontmatterSchema = z
@@ -22,7 +23,12 @@ export function setOutputs(
   tools.outputs.url = issue.html_url;
 }
 
-export function listToArray(list?: string[] | string) {
+export function listToArray(
+  list: string[] | string,
+  env: nunjucks.Environment,
+  context: object
+) {
   if (!list) return [];
-  return Array.isArray(list) ? list : list.split(", ");
+  const array = Array.isArray(list) ? list : list.split(", ");
+  return array.map((item) => env.renderString(item, context));
 }
