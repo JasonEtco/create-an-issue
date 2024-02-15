@@ -91,6 +91,9 @@ describe("create-an-issue", () => {
 
   it("creates a new issue with assignees, labels and a milestone", async () => {
     process.env.INPUT_FILENAME = ".github/kitchen-sink.md";
+    tools.context.payload = {
+      repository: { owner: { login: "JasonEtco" }, name: "waddup" },
+    };
     await createAnIssue(tools);
     expect(params).toMatchSnapshot();
     expect(tools.log.success).toHaveBeenCalled();

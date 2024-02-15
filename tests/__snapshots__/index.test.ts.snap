@@ -123,6 +123,7 @@ exports[`create-an-issue creates a new issue with assignees, labels and a milest
   "body": "The action create-an-issue is the best action.",
   "labels": [
     "bugs",
+    "JasonEtco",
   ],
   "milestone": 2,
   "title": "DO EVERYTHING",
