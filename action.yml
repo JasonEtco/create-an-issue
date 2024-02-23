@@ -29,3 +29,5 @@ outputs:
     description: Number of the issue that was created
   url:
     description: URL of the issue that was created
+  id:
+    description: node-id of the issue that was created

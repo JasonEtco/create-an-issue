@@ -38,6 +38,7 @@ describe("create-an-issue", () => {
           title: body.title,
           number: 1,
           html_url: "www",
+          node_id: "node",
         };
       });
 
@@ -57,9 +58,10 @@ describe("create-an-issue", () => {
     expect((tools.log.success as any).mock.calls).toMatchSnapshot();
 
     // Verify that the outputs were set
-    expect(core.setOutput).toHaveBeenCalledTimes(2);
+    expect(core.setOutput).toHaveBeenCalledTimes(3);
     expect(core.setOutput).toHaveBeenCalledWith("url", "www");
     expect(core.setOutput).toHaveBeenCalledWith("number", "1");
+    expect(core.setOutput).toHaveBeenCalledWith("id", "node");
   });
 
   it("creates a new issue from a different template", async () => {
@@ -143,6 +145,7 @@ describe("create-an-issue", () => {
           title: body.title,
           number: 1,
           html_url: "www",
+          node_id: "node",
         };
       });
 

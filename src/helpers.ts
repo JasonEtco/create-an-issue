@@ -16,10 +16,11 @@ export type FrontMatterAttributes = z.infer<typeof frontmatterSchema>;
 
 export function setOutputs(
   tools: Toolkit,
-  issue: { number: number; html_url: string }
+  issue: { number: number; html_url: string; node_id: string }
 ) {
   tools.outputs.number = String(issue.number);
   tools.outputs.url = issue.html_url;
+  tools.outputs.id = issue.node_id;
 }
 
 export function listToArray(list?: string[] | string) {
